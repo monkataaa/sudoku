@@ -1,0 +1,21 @@
+<p>
+  table works!
+</p>
+
+<h1>TABLE</h1>
+
+<table id="customers">
+  <tbody>
+    <tr *ngFor="let row of tableArr | keyvalue" >
+      <td *ngFor="let el of tableArr[row.key] , let i =  index">
+        <ng-container *ngIf="i < 3">
+          {{el}}
+        </ng-container>
+        <ng-container *ngIf="i > 3 && i < 6 ">
+            {{el}}
+          </ng-container>
+        </td>
+        
+      </tr>
+  </tbody>
+</table>
