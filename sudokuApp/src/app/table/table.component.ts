@@ -46,9 +46,13 @@ export class TableComponent implements OnInit {
     }
 
   }
-  getKeyValue(obj){
-    // console.log(Object.keys(obj)[0])
-    return Object.keys(obj)[0]
+  getKeyValue(obj, index){
+    console.log('ele is',Object.keys(obj)[4])
+    return Object.keys(obj)[index]
+  }
+
+  transferToArr(obj){
+      return Object.keys(obj)
   }
 
   checkRowIndex(rowIndex, check1, check2, check3 ){
