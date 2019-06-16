@@ -8,16 +8,24 @@
 
 <table id="customers">
   <tbody>
-    <tr *ngFor="let row of tableArr | keyvalue" >
-      <td *ngFor="let el of tableArr[row.key] , let i =  index">
-        <ng-container *ngIf="i < 3">
-          {{el}}
-        </ng-container>
-        <ng-container *ngIf="i > 3 && i < 6 ">
-            {{el}}
+    <tr *ngFor="let row of tableArr | keyvalue, let rowIndex = index">
+        <td *ngFor="let el of tableArr[row.key] , let col =  index">
+          <ng-container *ngIf="col < 3">
+              <ng-container *ngIf="checkRowIndex(rowIndex, 0, 3, 6 )">{{tableArr[getName(rowIndex)][col]}}</ng-container>
+              <ng-container *ngIf="checkRowIndex(rowIndex, 1, 4, 7 )">{{tableArr[getName(rowIndex - 1)][col+3]}}</ng-container>
+              <ng-container *ngIf="checkRowIndex(rowIndex, 2, 5, 8 )">{{tableArr[getName(rowIndex - 2 )][col+6]}}</ng-container>
+          </ng-container>
+          <ng-container *ngIf="col > 2 && col < 6">
+            <ng-container *ngIf="checkRowIndex(rowIndex, 0, 3, 6 )">{{tableArr[getName(rowIndex + 1)][col-3]}}</ng-container>
+            <ng-container *ngIf="checkRowIndex(rowIndex, 1, 4, 7 )">{{tableArr[getName(rowIndex)][col]}}</ng-container>
+            <ng-container *ngIf="checkRowIndex(rowIndex, 2, 5, 8 )">{{tableArr[getName(rowIndex -1)][col+3]}}</ng-container>
+          </ng-container>
+          <ng-container *ngIf="col > 5 && col < 9">
+            <ng-container *ngIf="checkRowIndex(rowIndex, 0, 3, 6 )">{{tableArr[getName(rowIndex + 2)][(col - 6)]}}</ng-container>
+            <ng-container *ngIf="checkRowIndex(rowIndex, 1, 4, 7 )">{{tableArr[getName(rowIndex + 1)][(col -3)]}}</ng-container>
+            <ng-container *ngIf="checkRowIndex(rowIndex, 2, 5, 8 )">{{tableArr[getName(rowIndex )][(col)]}}</ng-container>
           </ng-container>
         </td>
-        
-      </tr>
+    </tr>
   </tbody>
 </table>

@@ -38,6 +38,13 @@ export class TableComponent implements OnInit {
 
   }
 
+  checkRowIndex(rowIndex, check1, check2, check3 ){
+    if (rowIndex == check1 || rowIndex == check2 || rowIndex == check3) {
+      return true
+    }
+    return false
+  }
+
   getName(index){
     switch (index) {
       case 0: return 'a';
