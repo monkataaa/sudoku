@@ -14,19 +14,19 @@
         
           
           <ng-container *ngIf="col < 3">
-              <ng-container *ngIf="checkRowIndex(rowIndex, 0, 3, 6 )"><input>{{el}}</ng-container>
-              <ng-container *ngIf="checkRowIndex(rowIndex, 1, 4, 7 )"><input >{{el}}</ng-container>
-              <ng-container *ngIf="checkRowIndex(rowIndex, 2, 5, 8 )">{{el}}</ng-container>
+              <ng-container *ngIf="checkRowIndex(rowIndex, 0, 3, 6 )"><input [(ngModel)]="tableArr[row.key][el]">{{el}}</ng-container>
+              <ng-container *ngIf="checkRowIndex(rowIndex, 1, 4, 7 )"><input [(ngModel)]="tableArr[row.key][el]">{{el}}</ng-container>
+              <ng-container *ngIf="checkRowIndex(rowIndex, 2, 5, 8 )"><input [(ngModel)]="tableArr[row.key][el]">{{el}}</ng-container>
           </ng-container>
           <ng-container *ngIf="col > 2 && col < 6">
-            <ng-container *ngIf="checkRowIndex(rowIndex, 0, 3, 6 )">{{el}}</ng-container>
-            <ng-container *ngIf="checkRowIndex(rowIndex, 1, 4, 7 )">{{el}}</ng-container>
-            <ng-container *ngIf="checkRowIndex(rowIndex, 2, 5, 8 )">{{el}}</ng-container>
+            <ng-container *ngIf="checkRowIndex(rowIndex, 0, 3, 6 )"><input [(ngModel)]="tableArr[row.key][el]">{{el}}</ng-container>
+            <ng-container *ngIf="checkRowIndex(rowIndex, 1, 4, 7 )"><input [(ngModel)]="tableArr[row.key][el]">{{el}}</ng-container>
+            <ng-container *ngIf="checkRowIndex(rowIndex, 2, 5, 8 )"><input [(ngModel)]="tableArr[row.key][el]">{{el}}</ng-container>
           </ng-container>
           <ng-container *ngIf="col > 5 && col < 9">
-            <ng-container *ngIf="checkRowIndex(rowIndex, 0, 3, 6 )">{{el}}</ng-container>
-            <ng-container *ngIf="checkRowIndex(rowIndex, 1, 4, 7 )">{{el}}</ng-container>
-            <ng-container *ngIf="checkRowIndex(rowIndex, 2, 5, 8 )">{{el}}</ng-container>
+            <ng-container *ngIf="checkRowIndex(rowIndex, 0, 3, 6 )"><input [(ngModel)]="tableArr[row.key][el]">{{el}}</ng-container>
+            <ng-container *ngIf="checkRowIndex(rowIndex, 1, 4, 7 )"><input [(ngModel)]="tableArr[row.key][el]">{{el}}</ng-container>
+            <ng-container *ngIf="checkRowIndex(rowIndex, 2, 5, 8 )"><input [(ngModel)]="tableArr[row.key][el]">{{el}}</ng-container>
           </ng-container>
         </td>
     </tr>
