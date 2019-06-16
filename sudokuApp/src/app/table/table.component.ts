@@ -8,34 +8,47 @@ import { Component, OnInit } from '@angular/core';
 export class TableComponent implements OnInit {
 
   public tableArr: Object = {}
+  public test = 'testing';
 
   ngOnInit() {
     this.fillUpArray()
     console.log('table is', this.tableArr);
+    console.log('testarr is', this.testArr)
+    console.log('ell is', this.testArr['f']['ll'])
+
     
   }
+  public testArr = {"k": [{"q1": "pishkam"},{'z2':'achkam'}], "f": {"ll": 'asdasd', "qq" : "lll"}}
 
   public elCoutner = 1
   // public currentNumber = 1
  
   fillUpArray(){
     for (let objCube = 0; objCube < 9; objCube++) {
-      let arr =  []
-      for (let row = 0; row < 3; row++) {
+      let obj =  {}
+      this.tableArr[this.getName(objCube)] = {}
+      for (let row = 0; row < 9; row++) {
           
-        for (let el = 0; el < 3; el++) {
-          arr.push(this.getName(objCube) +  this.elCoutner)
+        // for (let el = 0; el < 3; el++) {
+          let prop = {}
+          //obj[this.getName(objCube) +  this.elCoutner] = 'kalkulate'
+          //arr.push(obj)
+          //this.tableArr[this.getName(objCube)] = this.getName(objCube) +  this.elCoutner = 'kalkulate'
+          this.tableArr[this.getName(objCube)][this.getName(objCube) + (row + 1)] = "kokshka"
           this.elCoutner++
-        }
-        this.tableArr[this.getName(objCube)] = arr
-        if (row == 2) {
-          this.elCoutner = 1
-        }
+        // }
+        // if (row == 2) {
+        //   this.elCoutner = 1
+        // }
       }
       
    
     }
 
+  }
+  getKeyValue(obj){
+    // console.log(Object.keys(obj)[0])
+    return Object.keys(obj)[0]
   }
 
   checkRowIndex(rowIndex, check1, check2, check3 ){
