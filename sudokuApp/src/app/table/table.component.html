@@ -10,23 +10,27 @@
 <table id="customers">
   <tbody>
     <tr *ngFor="let row of tableArr | keyvalue, let rowIndex = index">
+      <!-- row: {{row}} -->
+      rowKey: {{row.key}}
+      rowIndex: {{rowIndex}}
         <td *ngFor="let el of transferToArr(row.value) , let col =  index">
         
-          
+          <!-- arr: {{tableArr['b']}} -->
+          <!-- el: {{el}} -->
           <ng-container *ngIf="col < 3">
-              <ng-container *ngIf="checkRowIndex(rowIndex, 0, 3, 6 )"><input [(ngModel)]="tableArr[row.key][el]">{{el}}</ng-container>
-              <ng-container *ngIf="checkRowIndex(rowIndex, 1, 4, 7 )"><input [(ngModel)]="tableArr[row.key][el]">{{el}}</ng-container>
-              <ng-container *ngIf="checkRowIndex(rowIndex, 2, 5, 8 )"><input [(ngModel)]="tableArr[row.key][el]">{{el}}</ng-container>
+            <ng-container *ngIf="checkRowIndex(rowIndex, 0, 3, 6 )"><input [(ngModel)]="tableArr[row.key][getKeyValue(tableArr[getName(rowIndex)], col)]">{{getKeyValue(tableArr[getName(rowIndex)], col)}}</ng-container>
+            <ng-container *ngIf="checkRowIndex(rowIndex, 1, 4, 7 )">{{getKeyValue(tableArr[getName(rowIndex - 1)], col + 3)}}</ng-container>
+            <ng-container *ngIf="checkRowIndex(rowIndex, 2, 5, 8 )">{{getKeyValue(tableArr[getName(rowIndex - 2)], col + 6)}}</ng-container>
           </ng-container>
           <ng-container *ngIf="col > 2 && col < 6">
-            <ng-container *ngIf="checkRowIndex(rowIndex, 0, 3, 6 )"><input [(ngModel)]="tableArr[row.key][el]">{{el}}</ng-container>
-            <ng-container *ngIf="checkRowIndex(rowIndex, 1, 4, 7 )"><input [(ngModel)]="tableArr[row.key][el]">{{el}}</ng-container>
-            <ng-container *ngIf="checkRowIndex(rowIndex, 2, 5, 8 )"><input [(ngModel)]="tableArr[row.key][el]">{{el}}</ng-container>
+            <ng-container *ngIf="checkRowIndex(rowIndex, 0, 3, 6 )">{{getKeyValue(tableArr[getName(rowIndex + 1)], col - 3)}}</ng-container>
+            <ng-container *ngIf="checkRowIndex(rowIndex, 1, 4, 7 )">{{getKeyValue(tableArr[getName(rowIndex)], col)}}</ng-container>
+            <ng-container *ngIf="checkRowIndex(rowIndex, 2, 5, 8 )">{{getKeyValue(tableArr[getName(rowIndex - 1)], col + 3)}}</ng-container>
           </ng-container>
           <ng-container *ngIf="col > 5 && col < 9">
-            <ng-container *ngIf="checkRowIndex(rowIndex, 0, 3, 6 )"><input [(ngModel)]="tableArr[row.key][el]">{{el}}</ng-container>
-            <ng-container *ngIf="checkRowIndex(rowIndex, 1, 4, 7 )"><input [(ngModel)]="tableArr[row.key][el]">{{el}}</ng-container>
-            <ng-container *ngIf="checkRowIndex(rowIndex, 2, 5, 8 )"><input [(ngModel)]="tableArr[row.key][el]">{{el}}</ng-container>
+            <ng-container *ngIf="checkRowIndex(rowIndex, 0, 3, 6 )">{{getKeyValue(tableArr[getName(rowIndex + 2)], col - 6)}}</ng-container>
+            <ng-container *ngIf="checkRowIndex(rowIndex, 1, 4, 7 )">{{getKeyValue(tableArr[getName(rowIndex + 1)], col - 3)}}</ng-container>
+            <ng-container *ngIf="checkRowIndex(rowIndex, 2, 5, 8 )">{{getKeyValue(tableArr[getName(rowIndex)], col)}}</ng-container>
           </ng-container>
         </td>
     </tr>

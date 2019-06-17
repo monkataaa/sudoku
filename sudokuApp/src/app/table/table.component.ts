@@ -15,9 +15,10 @@ export class TableComponent implements OnInit {
     console.log('table is', this.tableArr);
     console.log('testarr is', this.testArr)
     console.log('ell is', this.testArr['f']['ll'])
-
     
   }
+
+  
   public testArr = {"k": [{"q1": "pishkam"},{'z2':'achkam'}], "f": {"ll": 'asdasd', "qq" : "lll"}}
 
   public elCoutner = 1
@@ -47,22 +48,22 @@ export class TableComponent implements OnInit {
 
   }
   getKeyValue(obj, index){
-    console.log('ele is',Object.keys(obj)[4])
-    return Object.keys(obj)[index]
+    // console.log('ele is', Object.keys(obj)[4]);
+    return Object.keys(obj)[index];
   }
 
-  transferToArr(obj){
-      return Object.keys(obj)
+  transferToArr(obj) {
+      return Object.keys(obj);
   }
 
-  checkRowIndex(rowIndex, check1, check2, check3 ){
+  checkRowIndex(rowIndex, check1, check2, check3) {
     if (rowIndex == check1 || rowIndex == check2 || rowIndex == check3) {
-      return true
+      return true;
     }
-    return false
+    return false;
   }
 
-  getName(index){
+  getName(index) {
     switch (index) {
       case 0: return 'a';
       case 1: return 'b';
