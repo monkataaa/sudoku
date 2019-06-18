@@ -36,6 +36,9 @@ export class TableComponent implements OnInit {
           //arr.push(obj)
           //this.tableArr[this.getName(objCube)] = this.getName(objCube) +  this.elCoutner = 'kalkulate'
           this.tableArr[this.getName(objCube)][this.getName(objCube) + (row + 1)] = "kokshka"
+          let keyAndTestValue = [this.getName(objCube) + (row + 1)][0]
+          // console.log('keyAndTestValue', keyAndTestValue);
+          this.tableArr[this.getName(objCube)][this.getName(objCube) + (row + 1)] = keyAndTestValue
           this.elCoutner++
         // }
         // if (row == 2) {
