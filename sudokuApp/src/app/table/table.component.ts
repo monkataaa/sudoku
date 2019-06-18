@@ -21,6 +21,7 @@ export class TableComponent implements OnInit {
   
   public testArr = {"k": [{"q1": "pishkam"},{'z2':'achkam'}], "f": {"ll": 'asdasd', "qq" : "lll"}}
 
+  public openedId: string = null
   public elCoutner = 1
   // public currentNumber = 1
  
@@ -38,7 +39,7 @@ export class TableComponent implements OnInit {
           this.tableArr[this.getName(objCube)][this.getName(objCube) + (row + 1)] = "kokshka"
           let keyAndTestValue = [this.getName(objCube) + (row + 1)][0]
           // console.log('keyAndTestValue', keyAndTestValue);
-          this.tableArr[this.getName(objCube)][this.getName(objCube) + (row + 1)] = keyAndTestValue
+          this.tableArr[this.getName(objCube)][this.getName(objCube) + (row + 1)] = keyAndTestValue + "Value"
           this.elCoutner++
         // }
         // if (row == 2) {
@@ -78,6 +79,33 @@ export class TableComponent implements OnInit {
       case 7: return 'h';
       case 8: return 'i';
     }
+  }
+
+  showInput(ev){
+    console.log('el', ev)
+    if (ev.target.localName == "input") {
+      return
+    }
+    let incomingId
+    if (ev.target.localName == "div") {
+      incomingId = ev.target.parentNode.id
+    } else {
+      incomingId  = ev.target.id
+    }
+
+    if (this.openedId == incomingId) {
+      return
+    }
+    this.openedId = incomingId
+  }
+
+  getTdId(rowIndex, col){
+
+    return 'tdId' + this.getKeyValue(this.tableArr[this.getName(rowIndex)], col)
+  }
+
+  getTdValue(rowIndex, col){
+    return this.tableArr[this.getName(rowIndex  )][this.getKeyValue(this.tableArr[this.getName(rowIndex )], col  )]
   }
 
 
