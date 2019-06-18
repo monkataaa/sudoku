@@ -5,12 +5,14 @@ import { AppComponent } from './app.component';
 import { TableComponent } from './table/table.component';
 import { FormsModule } from '@angular/forms';
 import { InputFieldComponent } from './input-field/input-field.component';
+import { TdComponentComponent } from './td-component/td-component.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     TableComponent,
-    InputFieldComponent
+    InputFieldComponent,
+    TdComponentComponent
   ],
   imports: [
     BrowserModule, FormsModule
