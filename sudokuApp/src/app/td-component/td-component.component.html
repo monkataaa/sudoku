@@ -1,5 +1,0 @@
-<td (click)="showInput($event)" 
-    id="{{getTdId(rowIndex -1, col + 3)}}" *ngIf="checkRowIndex(rowIndex, 1, 4, 7 )">
-    <input  *ngIf="openedId == getTdId(rowIndex -1 , col + 3)" 
-    [(ngModel)]="tableArr[getName(rowIndex -1)][getKeyValue(tableArr[getName(rowIndex -1)], col + 3 )]">
-    <div *ngIf="openedId != getTdId(rowIndex -1 , col + 3)">{{getTdValue(rowIndex-1, col+3)}}</div></td>

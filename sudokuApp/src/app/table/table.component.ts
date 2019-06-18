@@ -13,8 +13,6 @@ export class TableComponent implements OnInit {
   ngOnInit() {
     this.fillUpArray()
     console.log('table is', this.tableArr);
-    console.log('testarr is', this.testArr)
-    console.log('ell is', this.testArr['f']['ll'])
     
   }
 
@@ -36,10 +34,10 @@ export class TableComponent implements OnInit {
           //obj[this.getName(objCube) +  this.elCoutner] = 'kalkulate'
           //arr.push(obj)
           //this.tableArr[this.getName(objCube)] = this.getName(objCube) +  this.elCoutner = 'kalkulate'
-          this.tableArr[this.getName(objCube)][this.getName(objCube) + (row + 1)] = "kokshka"
-          let keyAndTestValue = [this.getName(objCube) + (row + 1)][0]
+          this.tableArr[this.getName(objCube)][this.getName(objCube) + (row + 1)] = ""
+          // let keyAndTestValue = [this.getName(objCube) + (row + 1)][0]
           // console.log('keyAndTestValue', keyAndTestValue);
-          this.tableArr[this.getName(objCube)][this.getName(objCube) + (row + 1)] = keyAndTestValue + "Value"
+          // this.tableArr[this.getName(objCube)][this.getName(objCube) + (row + 1)] = keyAndTestValue + "Value"
           this.elCoutner++
         // }
         // if (row == 2) {
@@ -81,8 +79,11 @@ export class TableComponent implements OnInit {
     }
   }
 
+  showTable(){
+    console.log("current Table is:", this.tableArr);
+  }
   showInput(ev){
-    console.log('el', ev)
+    // console.log('el', ev)
     if (ev.target.localName == "input") {
       return
     }

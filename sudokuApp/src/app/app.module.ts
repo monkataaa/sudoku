@@ -5,14 +5,18 @@ import { AppComponent } from './app.component';
 import { TableComponent } from './table/table.component';
 import { FormsModule } from '@angular/forms';
 import { InputFieldComponent } from './input-field/input-field.component';
-import { TdComponentComponent } from './td-component/td-component.component';
+import { TdBoxComponent } from './td-box/td-box.component';
+import { InputAndDivComponent } from './input-and-div/input-and-div.component';
+import { AutofocusDirective } from './utilities/autofocusDirective';
 
 @NgModule({
   declarations: [
     AppComponent,
     TableComponent,
     InputFieldComponent,
-    TdComponentComponent
+    TdBoxComponent,
+    InputAndDivComponent,
+    AutofocusDirective
   ],
   imports: [
     BrowserModule, FormsModule

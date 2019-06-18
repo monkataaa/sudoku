@@ -1,0 +1,4 @@
+<input *ngIf="openedId == getTdId(rowIndex, col)"  
+(keyup.enter)="openedId = null"  [autofocus]="true" size="2"
+[(ngModel)]="tableArr[getName(rowIndex  )][getKeyValue(tableArr[getName(rowIndex )], col  )]">
+<div *ngIf="openedId != getTdId(rowIndex, col)">{{getTdValue(rowIndex, col)}}</div> 

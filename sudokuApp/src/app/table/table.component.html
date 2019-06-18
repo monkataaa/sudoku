@@ -18,21 +18,23 @@
           <!-- arr: {{tableArr['b']}} -->
           <!-- el: {{el}} -->
           <ng-container *ngIf="col < 3">
-            <td (click)="showInput($event)" id="{{getTdId(rowIndex, col)}}"  *ngIf="checkRowIndex(rowIndex, 0, 3, 6 )"><input *ngIf="openedId == getTdId(rowIndex, col)" [(ngModel)]="tableArr[getName(rowIndex  )][getKeyValue(tableArr[getName(rowIndex )], col  )]"> <div *ngIf="openedId != getTdId(rowIndex, col)">{{getTdValue(rowIndex, col)}}</div> </td>
-            <td (click)="showInput($event)" id="{{getTdId(rowIndex -1, col + 3)}}" *ngIf="checkRowIndex(rowIndex, 1, 4, 7 )"><input  *ngIf="openedId == getTdId(rowIndex -1 , col + 3)" [(ngModel)]="tableArr[getName(rowIndex -1)][getKeyValue(tableArr[getName(rowIndex -1)], col + 3 )]"><div *ngIf="openedId != getTdId(rowIndex -1 , col + 3)">{{getTdValue(rowIndex-1, col+3)}}</div></td>
-            <td (click)="showInput($event)" id="{{getTdId(rowIndex -2, col + 6)}}" *ngIf="checkRowIndex(rowIndex, 2, 5, 8 )"><input *ngIf="openedId == getTdId(rowIndex -2, col+6)" [(ngModel)]="tableArr[getName(rowIndex -2)][getKeyValue(tableArr[getName(rowIndex -2)], col + 6 )]"><div *ngIf="openedId != getTdId(rowIndex -2, col+6)">{{getTdValue(rowIndex-2, col+6)}}</div></td>
+            <!-- <tdBox [tableArr]="tableArr" [col]="col" [rowIndex]="rowIndex"></tdBox> -->
+            <td (click)="showInput($event)" id="{{getTdId(rowIndex, col)}}"  *ngIf="checkRowIndex(rowIndex, 0, 3, 6 )"><inputAndDiv [tableArr]="tableArr" [openedId]="openedId" [rowIndex]="rowIndex" [col]="col"></inputAndDiv></td>
+            <td (click)="showInput($event)" id="{{getTdId(rowIndex -1, col + 3)}}" *ngIf="checkRowIndex(rowIndex, 1, 4, 7 )"><inputAndDiv [(tableArr)]="tableArr" [openedId]="openedId" [rowIndex]="rowIndex - 1" [col]="col + 3"></inputAndDiv></td>
+            <td (click)="showInput($event)" id="{{getTdId(rowIndex -2, col + 6)}}" *ngIf="checkRowIndex(rowIndex, 2, 5, 8 )"><inputAndDiv [tableArr]="tableArr" [openedId]="openedId" [rowIndex]="rowIndex - 2" [col]="col + 6"></inputAndDiv></td>
           </ng-container>
           <ng-container *ngIf="col > 2 && col < 6">
-            <td (click)="showInput($event)" id="{{getTdId(rowIndex + 1, col -3)}}" *ngIf="checkRowIndex(rowIndex, 0, 3, 6 )"><input *ngIf="openedId == getTdId(rowIndex + 1, col -3)" [(ngModel)]="tableArr[getName(rowIndex + 1)][getKeyValue(tableArr[getName(rowIndex + 1)], col - 3 )]"><div *ngIf="openedId != getTdId(rowIndex + 1, col -3)">{{getTdValue(rowIndex+1, col-3)}}</div></td>
-            <td (click)="showInput($event)" id="{{getTdId(rowIndex, col)}}" *ngIf="checkRowIndex(rowIndex, 1, 4, 7 )"><input *ngIf="openedId == getTdId(rowIndex, col)" [(ngModel)]="tableArr[getName(rowIndex    )][getKeyValue(tableArr[getName(rowIndex    )], col  )]"><div *ngIf="openedId != getTdId(rowIndex, col)">{{getTdValue(rowIndex, col)}}</div></td>
-            <td (click)="showInput($event)" id="{{getTdId(rowIndex -1, col + 3)}}" *ngIf="checkRowIndex(rowIndex, 2, 5, 8 )"><input  *ngIf="openedId == getTdId(rowIndex -1, col +3)" [(ngModel)]="tableArr[getName(rowIndex - 1)][getKeyValue(tableArr[getName(rowIndex - 1)], col + 3 )]"><div *ngIf="openedId != getTdId(rowIndex -1, col +3)">{{getTdValue(rowIndex-1, col+3)}}</div></td>
+            <td (click)="showInput($event)" id="{{getTdId(rowIndex + 1, col -3)}}" *ngIf="checkRowIndex(rowIndex, 0, 3, 6 )"><inputAndDiv [tableArr]="tableArr" [openedId]="openedId" [rowIndex]="rowIndex + 1" [col]="col -3"></inputAndDiv></td>
+            <td (click)="showInput($event)" id="{{getTdId(rowIndex, col)}}" *ngIf="checkRowIndex(rowIndex, 1, 4, 7 )"><inputAndDiv [tableArr]="tableArr" [openedId]="openedId" [rowIndex]="rowIndex" [col]="col"></inputAndDiv></td>
+            <td (click)="showInput($event)" id="{{getTdId(rowIndex -1, col + 3)}}" *ngIf="checkRowIndex(rowIndex, 2, 5, 8 )"><inputAndDiv [tableArr]="tableArr" [openedId]="openedId" [rowIndex]="rowIndex -1" [col]="col +3"></inputAndDiv></td>
           </ng-container>
           <ng-container *ngIf="col > 5 && col < 9">
-            <td (click)="showInput($event)" id="{{getTdId(rowIndex + 2, col -6)}}" *ngIf="checkRowIndex(rowIndex, 0, 3, 6 )"><input *ngIf="openedId == getTdId(rowIndex + 2, col -6)" [(ngModel)]="tableArr[getName(rowIndex + 2)][getKeyValue(tableArr[getName(rowIndex + 2)], col - 6 )]"><div *ngIf="openedId != getTdId(rowIndex + 2, col -6)">{{getTdValue(rowIndex+2, col-6)}}</div></td>
-            <td (click)="showInput($event)" id="{{getTdId(rowIndex + 1 , col - 3)}}" *ngIf="checkRowIndex(rowIndex, 1, 4, 7 )"><input *ngIf="openedId == getTdId(rowIndex + 1, col - 3)" [(ngModel)]="tableArr[getName(rowIndex + 1)][getKeyValue(tableArr[getName(rowIndex + 1)], col - 3 )]"><div *ngIf="openedId != getTdId(rowIndex + 1, col - 3)">{{getTdValue(rowIndex + 1, col - 3)}}</div></td>
-            <td (click)="showInput($event)" id="{{getTdId(rowIndex, col)}}" *ngIf="checkRowIndex(rowIndex, 2, 5, 8 )"><input *ngIf="openedId == getTdId(rowIndex, col)" [(ngModel)]="tableArr[getName(rowIndex)][getKeyValue(tableArr[getName(rowIndex)], col)]"><div *ngIf="openedId != getTdId(rowIndex, col )">{{getTdValue(rowIndex, col)}}</div></td>
+            <td (click)="showInput($event)" id="{{getTdId(rowIndex + 2, col -6)}}" *ngIf="checkRowIndex(rowIndex, 0, 3, 6 )"><inputAndDiv [tableArr]="tableArr" [openedId]="openedId" [rowIndex]="rowIndex + 2" [col]="col - 6"></inputAndDiv></td>
+            <td (click)="showInput($event)" id="{{getTdId(rowIndex + 1 , col - 3)}}" *ngIf="checkRowIndex(rowIndex, 1, 4, 7 )"><inputAndDiv [tableArr]="tableArr" [openedId]="openedId" [rowIndex]="rowIndex + 1" [col]="col -3"></inputAndDiv></td>
+            <td (click)="showInput($event)" id="{{getTdId(rowIndex, col)}}" *ngIf="checkRowIndex(rowIndex, 2, 5, 8 )"><inputAndDiv [tableArr]="tableArr" [openedId]="openedId" [rowIndex]="rowIndex" [col]="col"></inputAndDiv></td>
           </ng-container>
         </ng-container>
     </tr>
   </tbody>
 </table>
+<a (click)="showTable()">show table</a>
