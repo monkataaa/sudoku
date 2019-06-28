@@ -109,5 +109,27 @@ export class TableComponent implements OnInit {
     return this.tableArr[this.getName(rowIndex  )][this.getKeyValue(this.tableArr[this.getName(rowIndex )], col  )]
   }
 
+  getBorderStyle(col, rowIndex){
+    let style = {}
+   
+    if (rowIndex  == 0 || rowIndex + 2 == 5 || rowIndex + 2 == 8) {
+      style['border-top'] = '3px solid #080808'
+    }
+    if (rowIndex  == 8) {
+      style['border-bottom'] = '3px solid #080808'
+    }
+    if (col == 0 || col + 2 == 5 || col + 2 == 8) {
+      style['border-left'] = '3px solid #080808'
+      
+    }
+    if (col  == 8) {
+      style['border-right'] =  '3px solid #080808'
+      
+    }
+
+    return style
+   
+  }
+
 
 }

@@ -8,6 +8,7 @@ import { InputFieldComponent } from './input-field/input-field.component';
 import { TdBoxComponent } from './td-box/td-box.component';
 import { InputAndDivComponent } from './input-and-div/input-and-div.component';
 import { AutofocusDirective } from './utilities/autofocusDirective';
+import { NumberOnlyDirective } from './utilities/onlyNumbers';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { AutofocusDirective } from './utilities/autofocusDirective';
     InputFieldComponent,
     TdBoxComponent,
     InputAndDivComponent,
-    AutofocusDirective
+    AutofocusDirective,
+    NumberOnlyDirective
   ],
   imports: [
     BrowserModule, FormsModule
