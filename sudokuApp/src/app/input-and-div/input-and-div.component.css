@@ -5,8 +5,9 @@
 
     color: transparent;
     text-shadow: 0 0 0 #2196f3;
+    text-align: center; 
   
-    &:focus {
+    /* &:focus {
         outline: none;
-    }
+    } */
 }
