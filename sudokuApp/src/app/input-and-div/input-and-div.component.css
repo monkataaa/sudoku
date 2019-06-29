@@ -1,0 +1,12 @@
+
+  input {
+    line-height: 2.6em; 
+    width: 2.6em;
+
+    color: transparent;
+    text-shadow: 0 0 0 #2196f3;
+  
+    &:focus {
+        outline: none;
+    }
+}
