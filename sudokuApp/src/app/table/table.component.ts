@@ -8,54 +8,30 @@ import { Component, OnInit } from '@angular/core';
 export class TableComponent implements OnInit {
 
   public tableArr: Object = {}
-  public test = 'testing';
+
+  public tableValues: Object = {}
 
   ngOnInit() {
     this.fillUpArray()
-    console.log('table is', this.tableArr);
-    
   }
 
-  
-  public testArr = {"k": [{"q1": "pishkam"},{'z2':'achkam'}], "f": {"ll": 'asdasd', "qq" : "lll"}}
-
   public openedId: string = null
-  public elCoutner = 1
-  // public currentNumber = 1
- 
-  fillUpArray(){
+
+  fillUpArray() {
     for (let objCube = 0; objCube < 9; objCube++) {
-      let obj =  {}
       this.tableArr[this.getName(objCube)] = {}
       for (let row = 0; row < 9; row++) {
-          
-        // for (let el = 0; el < 3; el++) {
-          let prop = {}
-          //obj[this.getName(objCube) +  this.elCoutner] = 'kalkulate'
-          //arr.push(obj)
-          //this.tableArr[this.getName(objCube)] = this.getName(objCube) +  this.elCoutner = 'kalkulate'
-          this.tableArr[this.getName(objCube)][this.getName(objCube) + (row + 1)] = ""
-          // let keyAndTestValue = [this.getName(objCube) + (row + 1)][0]
-          // console.log('keyAndTestValue', keyAndTestValue);
-          // this.tableArr[this.getName(objCube)][this.getName(objCube) + (row + 1)] = keyAndTestValue + "Value"
-          this.elCoutner++
-        // }
-        // if (row == 2) {
-        //   this.elCoutner = 1
-        // }
+        this.tableArr[this.getName(objCube)][this.getName(objCube) + (row + 1)] = ""
       }
-      
-   
     }
 
   }
-  getKeyValue(obj, index){
-    // console.log('ele is', Object.keys(obj)[4]);
+  getKeyValue(obj, index) {
     return Object.keys(obj)[index];
   }
 
   transferToArr(obj) {
-      return Object.keys(obj);
+    return Object.keys(obj);
   }
 
   checkRowIndex(rowIndex, check1, check2, check3) {
@@ -79,11 +55,65 @@ export class TableComponent implements OnInit {
     }
   }
 
-  showTable(){
-    console.log("current Table is:", this.tableArr);
+  tryWith1() {
+    this.checkTable(1);
   }
-  showInput(ev){
-    // console.log('el', ev)
+
+  checkTable(numberToTry) {
+    Object.keys(this.tableArr).map((e, index) => {
+      if (index == 0) {
+        this.checInkBox(e, numberToTry)
+        this.checkInRow(4, numberToTry)
+      }
+
+      Object.keys(this.tableArr[e]).map(k => {
+
+        if (this.tableArr[e][k]) {
+          // console.log(this.tableArr[e][k]);
+          // console.log(" k is what i need", k);
+          if (!this.tableValues[e]) {
+            this.tableValues[e] = {}
+          }
+          this.tableValues[e][k] = this.tableArr[e][k]
+          // console.log(" now is", this.tableValues);
+          // this.tableValues[e].push(this.tableArr[e][k])
+        }
+      })
+    })
+  }
+
+  checInkBox(box, numberToTry) {
+    Object.keys(this.tableArr[box]).filter(keyInBox => {
+      if (this.tableArr[box][keyInBox] == numberToTry) {
+        console.log(`i found ${numberToTry} in box: ${box}`);
+      }
+
+    })
+  }
+
+  checkInRow(rowIndex, numberToTry) {
+    let startIndex = 0
+    if (rowIndex > 2 && rowIndex < 6) {
+      startIndex = 3
+    }
+    if (rowIndex > 6) {
+      startIndex = 6
+    }
+    for (let i = startIndex; i < startIndex + 3; i++) {
+      let box = this.getName(i)
+      Object.keys(this.tableArr[box]).filter((keyInBox, indexInBox) => {
+
+        if (indexInBox < 3) {
+          if (this.tableArr[box][keyInBox] == numberToTry) {
+            console.log(`i found ${numberToTry} in row: ${rowIndex}`);
+
+          }
+        }
+      })
+    }
+  }
+
+  showInput(ev) {
     if (ev.target.localName == "input") {
       return
     }
@@ -91,7 +121,7 @@ export class TableComponent implements OnInit {
     if (ev.target.localName == "div") {
       incomingId = ev.target.parentNode.id
     } else {
-      incomingId  = ev.target.id
+      incomingId = ev.target.id
     }
 
     if (this.openedId == incomingId) {
@@ -100,35 +130,34 @@ export class TableComponent implements OnInit {
     this.openedId = incomingId
   }
 
-  getTdId(rowIndex, col){
-
+  getTdId(rowIndex, col) {
     return 'tdId' + this.getKeyValue(this.tableArr[this.getName(rowIndex)], col)
   }
 
-  getTdValue(rowIndex, col){
-    return this.tableArr[this.getName(rowIndex  )][this.getKeyValue(this.tableArr[this.getName(rowIndex )], col  )]
+  getTdValue(rowIndex, col) {
+    return this.tableArr[this.getName(rowIndex)][this.getKeyValue(this.tableArr[this.getName(rowIndex)], col)]
   }
 
-  getBorderStyle(col, rowIndex){
+  getBorderStyle(col, rowIndex) {
     let style = {}
-   
-    if (rowIndex  == 0 || rowIndex + 2 == 5 || rowIndex + 2 == 8) {
+
+    if (rowIndex == 0 || rowIndex + 2 == 5 || rowIndex + 2 == 8) {
       style['border-top'] = '3px solid #080808'
     }
-    if (rowIndex  == 8) {
+    if (rowIndex == 8) {
       style['border-bottom'] = '3px solid #080808'
     }
     if (col == 0 || col + 2 == 5 || col + 2 == 8) {
       style['border-left'] = '3px solid #080808'
-      
+
     }
-    if (col  == 8) {
-      style['border-right'] =  '3px solid #080808'
-      
+    if (col == 8) {
+      style['border-right'] = '3px solid #080808'
+
     }
 
     return style
-   
+
   }
 
 

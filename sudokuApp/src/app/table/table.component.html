@@ -6,7 +6,7 @@
 
 <h1>TABLE</h1>
 <!-- <input type="text" [(ngModel)]="test"> -->
-
+table: {{tableValues | json}}
 <table id="customers">
   <tbody>
     <tr *ngFor="let row of tableArr | keyvalue, let rowIndex = index">
@@ -37,4 +37,5 @@
     </tr>
   </tbody>
 </table>
-<a (click)="showTable()">show table</a>
+<a (click)="tryWith1()">try with  1</a>
+<a (click)="checkTable()">check table</a><br>
