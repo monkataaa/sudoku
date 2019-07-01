@@ -13,6 +13,7 @@ export class TableComponent implements OnInit {
 
   ngOnInit() {
     this.fillUpArray()
+    console.log('table is ', this.tableArr);
   }
 
   public openedId: string = null
@@ -63,7 +64,8 @@ export class TableComponent implements OnInit {
     Object.keys(this.tableArr).map((e, index) => {
       if (index == 0) {
         this.checInkBox(e, numberToTry)
-        this.checkInRow(4, numberToTry)
+        this.checkInRow(5, numberToTry)
+        this.checkInCol(5, numberToTry)
       }
 
       Object.keys(this.tableArr[e]).map(k => {
@@ -83,15 +85,20 @@ export class TableComponent implements OnInit {
   }
 
   checInkBox(box, numberToTry) {
+    let manyTimes = 0
+    let result = ''
     Object.keys(this.tableArr[box]).filter(keyInBox => {
       if (this.tableArr[box][keyInBox] == numberToTry) {
-        console.log(`i found ${numberToTry} in box: ${box}`);
+        result = `I found ${++manyTimes}'times number:'${numberToTry}' in box: ${box}`;
       }
 
     })
+    // return result ? console.log(result) : null;
   }
 
   checkInRow(rowIndex, numberToTry) {
+    let result = '';
+    let indexLevel = ''
     let startIndex = 0
     if (rowIndex > 2 && rowIndex < 6) {
       startIndex = 3
@@ -99,18 +106,85 @@ export class TableComponent implements OnInit {
     if (rowIndex > 6) {
       startIndex = 6
     }
+
+    if (rowIndex % 3 == 0) {
+      indexLevel = 'low'
+    }
+    if (rowIndex % 3 == 1) {
+      indexLevel = "middle"
+    }
+    if (rowIndex % 3 == 2) {
+      indexLevel = "high"
+    }
+    let manyTimes = 0
     for (let i = startIndex; i < startIndex + 3; i++) {
       let box = this.getName(i)
       Object.keys(this.tableArr[box]).filter((keyInBox, indexInBox) => {
+        
+        let currentIndexLevel = ''
+        if (indexInBox < 3 ) {
+           currentIndexLevel = 'low'
+        } else if (indexInBox > 2 && indexInBox < 6) {
+          currentIndexLevel = "middle"
+        } else { currentIndexLevel = "high" }
 
-        if (indexInBox < 3) {
-          if (this.tableArr[box][keyInBox] == numberToTry) {
-            console.log(`i found ${numberToTry} in row: ${rowIndex}`);
-
-          }
+        if (indexLevel === currentIndexLevel && this.tableArr[box][keyInBox] == numberToTry) {
+            result = `I found ${++manyTimes}'times number:'${numberToTry}' in row: ${rowIndex}`;
         }
       })
     }
+    // return result ? console.log(result) : null;
+  }
+
+  checkInCol(colIndex, numberToTry){
+    let indexLevel = ''
+
+    let result = '';
+    let startIndex = 0
+    // if (colIndex > 2 && colIndex < 6) {
+    //   startIndex = 1
+    // }
+    // if (colIndex > 6) {
+    //   startIndex = 2
+    // }
+
+    if (colIndex % 3 == 0) {
+      startIndex = 0
+      indexLevel = 'low'
+    }
+    if (colIndex % 3 == 1) {
+      startIndex = 1
+      indexLevel = "middle"
+    }
+    if (colIndex % 3 == 2) {
+      startIndex = 2
+      indexLevel = "high"
+    }
+
+    let manyTimes = 0
+    //for loop for box 
+    console.log('startIndex is', startIndex);
+    for (let i = startIndex; i < 9; i+=3) {
+      console.log('i =', i);
+      let box = this.getName(i)
+      Object.keys(this.tableArr[box]).filter((keyInBox, indexInBox) => {
+        
+        let currentIndexLevel = ''
+        if (indexInBox % 3 == 0) {
+           currentIndexLevel = 'low'
+        } else if (indexInBox % 3 == 1) {
+          currentIndexLevel = "middle"
+        } else if (indexInBox % 3 == 2){
+           currentIndexLevel = "high" 
+        }
+
+        if (indexLevel === currentIndexLevel && this.tableArr[box][keyInBox] == numberToTry) {
+            result = `I found ${++manyTimes}'times number:'${numberToTry}' in col: ${colIndex}`;
+        }
+      })
+    }
+    return result ? console.log(result) : null;
+
   }
 
   showInput(ev) {
