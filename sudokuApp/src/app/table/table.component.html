@@ -37,5 +37,8 @@ table: {{tableValues | json}}
     </tr>
   </tbody>
 </table>
-<a (click)="tryWith1()">try with  1</a>
+<a (click)="tryWith1()">try with  1</a><br>
 <a (click)="checkTable()">check table</a><br>
+<a (click)="loadPreparedData()">load prepared table</a><br>
+<button type="button" class="btn btn-info" (click)="loadPreparedData()">load prepared table</button>
+<button type="button" class="btn btn-warning" (click)="clearTable()">clear table</button>
