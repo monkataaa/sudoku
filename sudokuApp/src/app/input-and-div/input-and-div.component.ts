@@ -12,18 +12,18 @@ export class InputAndDivComponent implements OnInit {
   @Input() openedId
   @Input() rowIndex
   @Input() col
-  @Input() tableArr
+  @Input() table
   ngOnInit() {
   }
 
 
   getTdId(rowIndex, col) {
 
-    return 'tdId' + this.getKeyValue(this.tableArr[this.getName(rowIndex)], col)
+    return 'tdId' + this.getKeyValue(this.table[this.getName(rowIndex)], col)
   }
 
   getTdValue(rowIndex, col) {
-    return this.tableArr[this.getName(rowIndex)][this.getKeyValue(this.tableArr[this.getName(rowIndex)], col)]
+    return this.table[this.getName(rowIndex)][this.getKeyValue(this.table[this.getName(rowIndex)], col)]
   }
   getKeyValue(obj, index) {
     // console.log('ele is', Object.keys(obj)[4]);

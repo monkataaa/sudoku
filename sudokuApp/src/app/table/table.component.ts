@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TableComponent implements OnInit {
 
-  public tableArr: Object = {}
+  public table: Object = {}
   public preparedTableData: Object =
   {
     a: { a1: "6", a2: "", a3: "8", a4: "", a5: "4", a6: "", a7: "1", a8: "9", a9: "" },
@@ -23,7 +23,7 @@ export class TableComponent implements OnInit {
 
   ngOnInit() {
     this.fillUpArray()
-    console.log('table is ', this.tableArr);
+    console.log('table is ', this.table);
     console.log('preparedTableData is ', this.preparedTableData);
   }
 
@@ -31,9 +31,9 @@ export class TableComponent implements OnInit {
 
   fillUpArray() {
     for (let objCube = 0; objCube < 9; objCube++) {
-      this.tableArr[this.getName(objCube)] = {}
+      this.table[this.getName(objCube)] = {}
       for (let row = 0; row < 9; row++) {
-        this.tableArr[this.getName(objCube)][this.getName(objCube) + (row + 1)] = ""
+        this.table[this.getName(objCube)][this.getName(objCube) + (row + 1)] = ""
       }
     }
 
@@ -43,7 +43,7 @@ export class TableComponent implements OnInit {
   }
 
   loadPreparedData(){
-    this.tableArr = JSON.parse(JSON.stringify(this.preparedTableData))
+    this.table = JSON.parse(JSON.stringify(this.preparedTableData))
   }
   clearTable(){
     this.fillUpArray()
@@ -75,20 +75,38 @@ export class TableComponent implements OnInit {
   }
 
   tryWith1() {
-    this.checkTable(1);
+    this.checkTable(1, "a", 0, 0);
   }
 
-  checkTable(numberToTry) {
-    this.checInkBox("a", numberToTry)
-    this.checkInRow(0, numberToTry)
-    this.checkInCol(0, numberToTry)
+  checkTable(numberToTry, box, row, col) {
+    this.checInBox(box, numberToTry)
+    this.checkInRow(row, numberToTry)
+    this.checkInCol(col, numberToTry)
   }
 
-  checInkBox(box, numberToTry) {
+  check(){
+    //tableBoxesArr is a,b,c,d...
+    let tableBoxesArr = Object.keys(this.table)
+    tableBoxesArr.filter(box => {
+      //boxElementsArr is a1, a2, a3, a4....
+      let boxElementsArr = Object.keys(this.table[box])
+      let assignedNumbersArr = Object.values(this.table[box]).map(elem => {elem !== ""; return Number(elem)}).filter(elem => elem !== 0)
+      let notAssignedNumbersArr = []
+      for (let i = 1; i <= 9; i++) {
+        if (!assignedNumbersArr.includes(i)) {
+          notAssignedNumbersArr.push(i)
+        }
+      }
+      console.log('notAssignedNumbersArr', notAssignedNumbersArr);
+
+    })
+  }
+
+  checInBox(box, numberToTry) {
     let manyTimes = 0
     let result = ''
-    Object.keys(this.tableArr[box]).filter(keyInBox => {
-      if (this.tableArr[box][keyInBox] == numberToTry) {
+    Object.keys(this.table[box]).filter(keyInBox => {
+      if (this.table[box][keyInBox] == numberToTry) {
         result = `I found ${++manyTimes}'times number:'${numberToTry}' in box: ${box}`;
       }
 
@@ -123,7 +141,7 @@ export class TableComponent implements OnInit {
     //if the rowIndex is 0-2 the search starts from a, if the row is between 3 and 5, the search should start with box d to f..
     for (let i = startIndex; i < startIndex + 3; i++) {
       let box = this.getName(i)
-      Object.keys(this.tableArr[box]).filter((keyInBox, indexInBox) => {
+      Object.keys(this.table[box]).filter((keyInBox, indexInBox) => {
     //the search is allays in the box and should be determined in which  row from that box is the found number
         let currentIndexLevel = ''
         if (indexInBox < 3 ) {
@@ -132,7 +150,7 @@ export class TableComponent implements OnInit {
           currentIndexLevel = "middle"
         } else { currentIndexLevel = "high" }
 
-        if (indexLevel === currentIndexLevel && this.tableArr[box][keyInBox] == numberToTry) {
+        if (indexLevel === currentIndexLevel && this.table[box][keyInBox] == numberToTry) {
             result = `I found ${++manyTimes}'times number:'${numberToTry}' in row: ${rowIndex}`;
         }
       })
@@ -169,7 +187,7 @@ export class TableComponent implements OnInit {
     //for loop for searching firstly in the box 
     for (let i = startIndex; i < 9; i+=3) {
       let box = this.getName(i)
-      Object.keys(this.tableArr[box]).filter((keyInBox, indexInBox) => {
+      Object.keys(this.table[box]).filter((keyInBox, indexInBox) => {
         //the search is allays in the box and should be determined in which  col from that box is the found number
         let currentIndexLevel = ''
         if (indexInBox % 3 == 0) {
@@ -181,7 +199,7 @@ export class TableComponent implements OnInit {
         }
 
       // if the searched col is the same like the col in which the number is found - then we have a success
-        if (indexLevel === currentIndexLevel && this.tableArr[box][keyInBox] == numberToTry) {
+        if (indexLevel === currentIndexLevel && this.table[box][keyInBox] == numberToTry) {
             result = `I found ${++manyTimes}'times number:'${numberToTry}' in col: ${colIndex}`;
         }
       })
@@ -208,11 +226,11 @@ export class TableComponent implements OnInit {
   }
 
   getTdId(rowIndex, col) {
-    return 'tdId' + this.getKeyValue(this.tableArr[this.getName(rowIndex)], col)
+    return 'tdId' + this.getKeyValue(this.table[this.getName(rowIndex)], col)
   }
 
   getTdValue(rowIndex, col) {
-    return this.tableArr[this.getName(rowIndex)][this.getKeyValue(this.tableArr[this.getName(rowIndex)], col)]
+    return this.table[this.getName(rowIndex)][this.getKeyValue(this.table[this.getName(rowIndex)], col)]
   }
 
   getBorderStyle(col, rowIndex) {
