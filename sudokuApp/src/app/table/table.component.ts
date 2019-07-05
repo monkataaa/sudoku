@@ -90,7 +90,12 @@ export class TableComponent implements OnInit {
     tableBoxesArr.filter(box => {
       //boxElementsArr is a1, a2, a3, a4....
       let boxElementsArr = Object.keys(this.table[box])
-      let assignedNumbersArr = Object.values(this.table[box]).map(elem => {elem !== ""; return Number(elem)}).filter(elem => elem !== 0)
+      let assignedNumbersArr = []
+      Object.values(this.table[box]).filter(elem => {
+        if (elem !== "") {
+          assignedNumbersArr.push(Number(elem))
+          // TODO should fill up un array with not assign POSITIONS !!!
+        }})
       let notAssignedNumbersArr = []
       for (let i = 1; i <= 9; i++) {
         if (!assignedNumbersArr.includes(i)) {
