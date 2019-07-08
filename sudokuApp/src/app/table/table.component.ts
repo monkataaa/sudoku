@@ -91,11 +91,16 @@ export class TableComponent implements OnInit {
       //boxElementsArr is a1, a2, a3, a4....
       let boxElementsArr = Object.keys(this.table[box])
       let assignedNumbersArr = []
-      Object.values(this.table[box]).filter(elem => {
-        if (elem !== "") {
-          assignedNumbersArr.push(Number(elem))
+      let emptyPositions = []
+      let tableKeys = Object.keys(this.table[box])
+      tableKeys.filter((key, index) => {
+        if (this.table[box][key] !== "") {
+          assignedNumbersArr.push(Number(this.table[box][key]))
+        } else{
           // TODO should fill up un array with not assign POSITIONS !!!
-        }})
+          emptyPositions  
+          this.defineCol(key, index) 
+        }} )
       let notAssignedNumbersArr = []
       for (let i = 1; i <= 9; i++) {
         if (!assignedNumbersArr.includes(i)) {
@@ -105,6 +110,28 @@ export class TableComponent implements OnInit {
       console.log('notAssignedNumbersArr', notAssignedNumbersArr);
 
     })
+  }
+
+  defineCol(key, index){
+    let box = key.substring(0, 1)
+    let col = index % 3
+    let row = Number(key.substring(1)) - 1
+    
+    switch (box) {
+      case 'a': col += 0; break;
+      case 'b': col += 3; break;
+      case 'c': col += 6; break;
+      case 'd': col += 0; break;
+      case 'e': col += 3; break;
+      case 'f': col += 6; break;
+      case 'g': col += 0; break;
+      case 'h': col += 3; break;
+      case 'i': col += 6; break;
+    
+      default:
+        break;
+    }
+    console.log('key, index, COL, ROW', key, index, col, row);
   }
 
   checInBox(box, numberToTry) {
