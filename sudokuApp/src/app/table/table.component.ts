@@ -92,6 +92,15 @@ export class TableComponent implements OnInit {
   }
 
   check(){
+
+    //TO DO make while loop or finding all matches
+
+    // Object.values(this.table).filter(box => {
+    //   Object.values(box).filter(value => {
+    //     console.log('value', value);
+    //   })
+    // })
+
     //tableBoxesArr is a,b,c,d...
     let tableBoxesArr = Object.keys(this.table)
     tableBoxesArr.filter(box => {
@@ -110,18 +119,25 @@ export class TableComponent implements OnInit {
           emptyPositions[key]["box"] = box
           emptyPositions[key]["row"] = row
           emptyPositions[key]["col"] = col
+          emptyPositions[key]["key"] = key
 
         }} )
       for (let i = 1; i <= 9; i++) {
-        let manyTimesInBox = 0
+        let matchedPossibilities: number = 0
+        let matchedPositionObj: {} = {}
         if (!assignedNumbersArr.includes(i)) {
           Object.keys(emptyPositions).filter(emptyKey => {
             this.checkTable(i, emptyPositions[emptyKey]['box'], emptyPositions[emptyKey]['row'], emptyPositions[emptyKey]['col'])
             if (this.checkTable(i, emptyPositions[emptyKey]['box'], emptyPositions[emptyKey]['row'], emptyPositions[emptyKey]['col'])) {
-              ++manyTimesInBox
-              console.log(`i can put Number ${i} in key ${emptyKey}`);
+              ++matchedPossibilities
+              matchedPositionObj = emptyPositions[emptyKey]
             }
           })
+        }
+        if (matchedPossibilities == 1 && matchedPositionObj && Object.keys(matchedPositionObj).length !== 0 ) {
+          let positionBox = matchedPositionObj["box"]
+          let positionKey = matchedPositionObj["key"]
+          this.table[positionBox][positionKey] = i
         }
       }
 
