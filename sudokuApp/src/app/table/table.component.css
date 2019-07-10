@@ -11,7 +11,7 @@
     height: 60px;
   }
   
-  #customers tr:nth-child(even){background-color: #f2f2f2;}
+  /* #customers tr:nth-child(even){background-color: #ebebeb;} */
   
   #customers td:hover {background-color: #ddd;}
   

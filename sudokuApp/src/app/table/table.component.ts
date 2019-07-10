@@ -327,6 +327,11 @@ export class TableComponent implements OnInit {
 
     }
 
+    if (((col > 2  && col < 6) && (rowIndex < 3 || rowIndex > 5))
+        || ((rowIndex > 2 && rowIndex < 6) && (col < 3 || col > 5))) {
+      style["background-color"] = "#ebebeb"
+    }
+
     return style
 
   }
