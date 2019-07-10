@@ -9,22 +9,22 @@ export class TableComponent implements OnInit {
 
   public table: Object = {}
   public preparedTableData: Object =
-  {
-    a: { a1: "6", a2: "", a3: "8", a4: "", a5: "4", a6: "", a7: "1", a8: "9", a9: "" },
-    b: { b1: "3", b2: "", b3: "7", b4: "9", b5: "1", b6: "", b7: "4", b8: "", b9: "" },
-    c: { c1: "4", c2: "", c3: "", c4: "", c5: "5", c6: "8", c7: "7", c8: "3", c9: "" },
-    d: { d1: "", d2: "3", d3: "", d4: "5", d5: "", d6: "1", d7: "", d8: "6", d9: "9" },
-    e: { e1: "", e2: "9", e3: "1", e4: "", e5: "2", e6: "", e7: "7", e8: "", e9: "3", },
-    f: { f1: "", f2: "7", f3: "2", f4: "3", f5: "4", f6: "", f7: "8", f8: "", f9: "" },
-    g: { g1: "4", g2: "", g3: "", g4: "3", g5: "5", g6: "7", g7: "", g8: "", g9: "6" },
-    h: { h1: "1", h2: "7", h3: "5", h4: "", h5: "", h6: "9", h7: "", h8: "3", h9: "" },
-    i: { i1: "", i2: "", i3: "3", i4: "", i5: "", i6: "4", i7: "5", i8: "2", i9: "7" }
-  }
+    {
+      a: { a1: "6", a2: "", a3: "8", a4: "", a5: "4", a6: "", a7: "1", a8: "9", a9: "" },
+      b: { b1: "3", b2: "", b3: "7", b4: "9", b5: "1", b6: "", b7: "4", b8: "", b9: "" },
+      c: { c1: "4", c2: "", c3: "", c4: "", c5: "5", c6: "8", c7: "7", c8: "3", c9: "" },
+      d: { d1: "", d2: "3", d3: "", d4: "5", d5: "", d6: "1", d7: "", d8: "6", d9: "9" },
+      e: { e1: "", e2: "9", e3: "1", e4: "", e5: "2", e6: "", e7: "7", e8: "", e9: "3", },
+      f: { f1: "", f2: "7", f3: "2", f4: "3", f5: "4", f6: "", f7: "8", f8: "", f9: "" },
+      g: { g1: "4", g2: "", g3: "", g4: "3", g5: "5", g6: "7", g7: "", g8: "", g9: "6" },
+      h: { h1: "1", h2: "7", h3: "5", h4: "", h5: "", h6: "9", h7: "", h8: "3", h9: "" },
+      i: { i1: "", i2: "", i3: "3", i4: "", i5: "", i6: "4", i7: "5", i8: "2", i9: "7" }
+    }
 
   ngOnInit() {
     this.fillUpArray()
-    this.loadPreparedData()
-    this.check()
+    // this.loadPreparedData()
+    // this.check()
     console.log('table is ', this.table);
     console.log('preparedTableData is ', this.preparedTableData);
   }
@@ -44,10 +44,10 @@ export class TableComponent implements OnInit {
     return Object.keys(obj)[index];
   }
 
-  loadPreparedData(){
+  loadPreparedData() {
     this.table = JSON.parse(JSON.stringify(this.preparedTableData))
   }
-  clearTable(){
+  clearTable() {
     this.fillUpArray()
   }
 
@@ -76,9 +76,7 @@ export class TableComponent implements OnInit {
     }
   }
 
-  tryWith1() {
-    this.checkTable(1, "a", 0, 0);
-  }
+ 
 
   checkTable(numberToTry, box, row, col) {
     let checInBoxValue = this.checInBox(box, numberToTry)
@@ -91,60 +89,65 @@ export class TableComponent implements OnInit {
     return false
   }
 
-  check(){
-
-    //TO DO make while loop or finding all matches
-
-    // Object.values(this.table).filter(box => {
-    //   Object.values(box).filter(value => {
-    //     console.log('value', value);
-    //   })
-    // })
-
-    //tableBoxesArr is a,b,c,d...
-    let tableBoxesArr = Object.keys(this.table)
-    tableBoxesArr.filter(box => {
-      //boxElementsArr is a1, a2, a3, a4....
-      let boxElementsArr = Object.keys(this.table[box])
-      let assignedNumbersArr = []
-      let emptyPositions = {}
-      let tableKeys = Object.keys(this.table[box])
-      tableKeys.filter((key, index) => {
-        if (this.table[box][key] !== "") {
-          assignedNumbersArr.push(Number(this.table[box][key]))
-        } else{
-            //a4: {row: 1, col: 0}
-          let [col, row] = this.defineCol(key, index) 
-          emptyPositions[key] = {}
-          emptyPositions[key]["box"] = box
-          emptyPositions[key]["row"] = row
-          emptyPositions[key]["col"] = col
-          emptyPositions[key]["key"] = key
-
-        }} )
-      for (let i = 1; i <= 9; i++) {
-        let matchedPossibilities: number = 0
-        let matchedPositionObj: {} = {}
-        if (!assignedNumbersArr.includes(i)) {
-          Object.keys(emptyPositions).filter(emptyKey => {
-            this.checkTable(i, emptyPositions[emptyKey]['box'], emptyPositions[emptyKey]['row'], emptyPositions[emptyKey]['col'])
-            if (this.checkTable(i, emptyPositions[emptyKey]['box'], emptyPositions[emptyKey]['row'], emptyPositions[emptyKey]['col'])) {
-              ++matchedPossibilities
-              matchedPositionObj = emptyPositions[emptyKey]
-            }
-          })
-        }
-        if (matchedPossibilities == 1 && matchedPositionObj && Object.keys(matchedPositionObj).length !== 0 ) {
-          let positionBox = matchedPositionObj["box"]
-          let positionKey = matchedPositionObj["key"]
-          this.table[positionBox][positionKey] = i
-        }
-      }
-
-    })
+  sumAllFilledPositions() {
+    let sumAllPositions = Object.values(this.table).map(box => {
+      let sumAllBoxPositions = Object.values(box).filter(value => { return value != "" }).length
+      return sumAllBoxPositions
+    }).reduce((a, b) => a + b)
+    return sumAllPositions
   }
 
-  defineCol(key, index){
+  check() {
+    let a = 0;
+    while (this.sumAllFilledPositions() < 81 && a < 1000) {
+      a++;
+      console.log('all Positions are', this.sumAllFilledPositions());
+      //tableBoxesArr is a,b,c,d...
+      let tableBoxesArr = Object.keys(this.table)
+      tableBoxesArr.filter(box => {
+      
+        let assignedNumbersArr = []
+        let emptyPositions = {}
+        let tableKeys = Object.keys(this.table[box])
+        tableKeys.filter((key, index) => {
+          if (this.table[box][key] !== "") {
+            assignedNumbersArr.push(Number(this.table[box][key]))
+          } else {
+            //a4: {row: 1, col: 0}
+            let [col, row] = this.defineCol(key, index)
+            emptyPositions[key] = {}
+            emptyPositions[key]["box"] = box
+            emptyPositions[key]["row"] = row
+            emptyPositions[key]["col"] = col
+            emptyPositions[key]["key"] = key
+
+          }
+        })
+        for (let i = 1; i <= 9; i++) {
+          let matchedPossibilities: number = 0
+          let matchedPositionObj: {} = {}
+          if (!assignedNumbersArr.includes(i)) {
+            Object.keys(emptyPositions).filter(emptyKey => {
+              this.checkTable(i, emptyPositions[emptyKey]['box'], emptyPositions[emptyKey]['row'], emptyPositions[emptyKey]['col'])
+              if (this.checkTable(i, emptyPositions[emptyKey]['box'], emptyPositions[emptyKey]['row'], emptyPositions[emptyKey]['col'])) {
+                ++matchedPossibilities
+                matchedPositionObj = emptyPositions[emptyKey]
+              }
+            })
+          }
+          if (matchedPossibilities == 1 && matchedPositionObj && Object.keys(matchedPositionObj).length !== 0) {
+            let positionBox = matchedPositionObj["box"]
+            let positionKey = matchedPositionObj["key"]
+            this.table[positionBox][positionKey] = i
+          }
+        }
+
+      })
+    }
+
+  }
+
+  defineCol(key, index) {
     let box = key.substring(0, 1)
     let col = index % 3
     let row = Math.floor(index / 3)
@@ -158,7 +161,7 @@ export class TableComponent implements OnInit {
       case 'g': col += 0; row += 6; break;
       case 'h': col += 3; row += 6; break;
       case 'i': col += 6; row += 6; break;
-    
+
       default:
         break;
     }
@@ -166,22 +169,16 @@ export class TableComponent implements OnInit {
   }
 
   checInBox(box, numberToTry) {
-    let manyTimes = 0
-    let result = ''
     let isEmptyBox: boolean = true
     Object.keys(this.table[box]).filter(keyInBox => {
       if (this.table[box][keyInBox] == numberToTry) {
-        result = `I found ${++manyTimes}'times number:'${numberToTry}' in box: ${box}`;
         isEmptyBox = false
       }
-
     })
-    // result ? console.log(result) : null;
     return isEmptyBox
   }
 
   checkInRow(rowIndex, numberToTry) {
-    let result = '';
     let indexLevel = ''
     let startIndex = 0
 
@@ -210,30 +207,27 @@ export class TableComponent implements OnInit {
     for (let i = startIndex; i < startIndex + 3; i++) {
       let box = this.getName(i)
       Object.keys(this.table[box]).filter((keyInBox, indexInBox) => {
-    //the search is allays in the box and should be determined in which  row from that box is the found number
+        //the search is allays in the box and should be determined in which  row from that box is the found number
         let currentIndexLevel = ''
-        if (indexInBox < 3 ) {
-           currentIndexLevel = 'low'
+        if (indexInBox < 3) {
+          currentIndexLevel = 'low'
         } else if (indexInBox > 2 && indexInBox < 6) {
           currentIndexLevel = "middle"
         } else { currentIndexLevel = "high" }
 
         if (indexLevel === currentIndexLevel && this.table[box][keyInBox] == numberToTry) {
-            isEmptyRow = false
-            result = `I found ${++manyTimes}'times number:'${numberToTry}' in row: ${rowIndex}`;
+          isEmptyRow = false
         }
       })
     }
-    // result ? console.log(result) : null;
     return isEmptyRow
   }
 
-  checkInCol(colIndex, numberToTry){
+  checkInCol(colIndex, numberToTry) {
     let indexLevel = ''
 
     let isEmptyCol: boolean = true
 
-    let result = '';
     let startIndex = 0
     if (colIndex > 2 && colIndex < 6) {
       startIndex = 1
@@ -257,27 +251,25 @@ export class TableComponent implements OnInit {
 
     let manyTimes = 0
     //for loop for searching firstly in the box 
-    for (let i = startIndex; i < 9; i+=3) {
+    for (let i = startIndex; i < 9; i += 3) {
       let box = this.getName(i)
       Object.keys(this.table[box]).filter((keyInBox, indexInBox) => {
         //the search is allays in the box and should be determined in which  col from that box is the found number
         let currentIndexLevel = ''
         if (indexInBox % 3 == 0) {
-           currentIndexLevel = 'low'
+          currentIndexLevel = 'low'
         } else if (indexInBox % 3 == 1) {
           currentIndexLevel = "middle"
-        } else if (indexInBox % 3 == 2){
-           currentIndexLevel = "high" 
+        } else if (indexInBox % 3 == 2) {
+          currentIndexLevel = "high"
         }
 
-      // if the searched col is the same like the col in which the number is found - then we have a success
+        // if the searched col is the same like the col in which the number is found - then we have a success
         if (indexLevel === currentIndexLevel && this.table[box][keyInBox] == numberToTry) {
-            result = `I found ${++manyTimes}'times number:'${numberToTry}' in col: ${colIndex}`;
-            isEmptyCol = false
+          isEmptyCol = false
         }
       })
     }
-    // result ? console.log(result) : null;
     return isEmptyCol
 
   }
