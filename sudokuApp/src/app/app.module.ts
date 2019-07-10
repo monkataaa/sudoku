@@ -9,7 +9,9 @@ import { TdBoxComponent } from './td-box/td-box.component';
 import { InputAndDivComponent } from './input-and-div/input-and-div.component';
 import { AutofocusDirective } from './utilities/autofocusDirective';
 import { NumberOnlyDirective } from './utilities/onlyNumbers';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+ 
+import { ToastrModule } from 'ngx-toastr';
 @NgModule({
   declarations: [
     AppComponent,
@@ -21,7 +23,8 @@ import { NumberOnlyDirective } from './utilities/onlyNumbers';
     NumberOnlyDirective
   ],
   imports: [
-    BrowserModule, FormsModule
+    BrowserModule, FormsModule, BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

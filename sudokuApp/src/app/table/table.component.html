@@ -7,6 +7,7 @@
 <h1>TABLE</h1>
 <!-- <input type="text" [(ngModel)]="test"> -->
 table: {{tableValues | json}}
+
 <table id="customers">
   <tbody>
     <tr *ngFor="let row of table | keyvalue, let rowIndex = index">
@@ -37,6 +38,9 @@ table: {{tableValues | json}}
     </tr>
   </tbody>
 </table>
-<button type="button" class="btn btn-success" (click)="check()">check</button>
+<button type="button" class="btn btn-success" (click)="check()">check
+  <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+
+</button>
 <button type="button" class="btn btn-info" (click)="loadPreparedData()">load prepared table</button>
 <button type="button" class="btn btn-warning" (click)="clearTable()">clear table</button>
