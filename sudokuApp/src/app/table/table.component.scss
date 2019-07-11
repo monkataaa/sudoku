@@ -1,0 +1,32 @@
+$myFont: "Trebuchet MS", Arial, Helvetica, sans-serif;
+$myColor: rgb(138, 193, 219);
+
+#customers {
+
+      font-family: $myFont;
+      border-collapse: collapse;
+      margin: auto;
+    
+      }
+td, th {
+    border: 1px solid #ddd;
+    padding: 8px;
+    width: 60px;
+    height: 60px;
+  }
+  
+     
+  /* #customers tr:nth-child(even){background-color: #ebebeb;} */
+  
+ td:hover {background-color: $myColor;}
+  
+ th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+  }
+
+
+  

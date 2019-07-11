@@ -3,15 +3,16 @@ import { ToastrService } from 'ngx-toastr';
 import { async } from '@angular/core/testing';
 import { ValueLimits } from '../utilities/valueLimits';
 import { PreparedData } from '../utilities/preparedData';
+import { ApiService } from '../services/api.service';
 
 @Component({
   selector: 'app-table',
   templateUrl: './table.component.html',
-  styleUrls: ['./table.component.css']
+  styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnInit {
 
-  constructor(private toastr: ToastrService){}
+  constructor(private toastr: ToastrService, private apiService: ApiService){}
 
 
   public isLoading: boolean = false;
@@ -40,6 +41,9 @@ export class TableComponent implements OnInit {
 
   loadPreparedData() {
     this.table = JSON.parse(JSON.stringify(this.PreparedData.preparedTable))
+    this.apiService.getSudoku(3).subscribe(res => {
+      console.log('res is ', res);
+    })
   }
   clearTable() {
     this.fillUpArray()
@@ -327,10 +331,10 @@ export class TableComponent implements OnInit {
 
     }
 
-    if (((col > 2  && col < 6) && (rowIndex < 3 || rowIndex > 5))
-        || ((rowIndex > 2 && rowIndex < 6) && (col < 3 || col > 5))) {
-      style["background-color"] = "#ebebeb"
-    }
+    // if (((col > 2  && col < 6) && (rowIndex < 3 || rowIndex > 5))
+    //     || ((rowIndex > 2 && rowIndex < 6) && (col < 3 || col > 5))) {
+    //   style["background-color"] = "#ebebeb"
+    // }
 
     return style
 

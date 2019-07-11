@@ -10,7 +10,8 @@ import { InputAndDivComponent } from './input-and-div/input-and-div.component';
 import { AutofocusDirective } from './utilities/autofocusDirective';
 import { NumberOnlyDirective } from './utilities/onlyNumbers';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
- 
+import { HttpClientModule } from '@angular/common/http';
+
 import { ToastrModule } from 'ngx-toastr';
 @NgModule({
   declarations: [
@@ -23,8 +24,11 @@ import { ToastrModule } from 'ngx-toastr';
     NumberOnlyDirective
   ],
   imports: [
-    BrowserModule, FormsModule, BrowserAnimationsModule,
-    ToastrModule.forRoot()
+    BrowserModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
