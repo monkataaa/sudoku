@@ -1,5 +1,5 @@
 $myFont: "Trebuchet MS", Arial, Helvetica, sans-serif;
-$myColor: rgb(138, 193, 219);
+$tdOnHover: rgb(138, 193, 219);
 
 #customers {
 
@@ -16,9 +16,16 @@ td, th {
   }
   
      
-  /* #customers tr:nth-child(even){background-color: #ebebeb;} */
+ tr:nth-child(n+4):nth-child(-n+6){
+     background-color: #ebebeb;}
+ td:nth-child(n+4):nth-child(-n+6){
+      background-color: #ebebeb;}
+
+ tr:nth-child(n+4):nth-child(-n+6) td:nth-child(n+4):nth-child(-n+6){
+        background-color: white;}
+   
   
- td:hover {background-color: $myColor;}
+ td:hover {background-color: $tdOnHover !important; }
   
  th {
     padding-top: 12px;
