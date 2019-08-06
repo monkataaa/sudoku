@@ -19,14 +19,16 @@ export class TableComponent implements OnInit {
   public table: Object = {}
   public PreparedData: PreparedData = new PreparedData();
   ngOnInit() {
-    this.fillUpArray()
-    // this.loadPreparedData()
+    this.fillUpInitialTable()
+    // this.loadPreparedData(1);
     // this.check()
   }
 
   public openedId: string = null
 
-  fillUpArray() {
+  
+
+  fillUpInitialTable() {
     for (let col = 0; col < 9; col++) {
       let boxName = this.getBoxName(col)
       this.table[boxName] = {}
@@ -38,16 +40,24 @@ export class TableComponent implements OnInit {
 
   }
 
+ 
 
-  loadPreparedData() {
-    this.table = JSON.parse(JSON.stringify(this.PreparedData.preparedTable))
-    this.apiService.getSudoku(3).subscribe(res => {
-      console.log('res is ', res);
+  loadPreparedData(level) {
+    this.isLoading = true;
+    // this.table = JSON.parse(JSON.stringify(this.PreparedData.preparedTable))
+    this.fillUpInitialTable();
+    this.apiService.getSudoku(level).subscribe(res => {
+      res["squares"].map((data) => {
+        let {x, y, value} = data
+        let elem = document.getElementById(x + "_" +y).getAttribute('data-el');
+        let box = elem.substring(0, 1)
+        this.table[box][elem] = value
+      })
+      this.isLoading = false;
     })
+
   }
-  clearTable() {
-    this.fillUpArray()
-  }
+ 
 
   transferToArr(obj) {
     return Object.keys(obj);

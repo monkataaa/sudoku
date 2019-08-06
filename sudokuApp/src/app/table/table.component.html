@@ -5,6 +5,7 @@
 <h2>Hello from Baar</h2>
 
 <h1>TABLE</h1>
+
 <table id="customers">
   <tbody>
     <tr *ngFor="let row of table | keyvalue, let rowIndex = index"> 
@@ -17,15 +18,26 @@
           <!-- el: {{el}} -->
           <!-- {{rowIndex + "_" + col + "_" + el }}  -->
            <!-- name {{getBoxName(rowIndex)}}  -->
-          <td id="{{rowIndex + '_' + col}}"  (click)="showInput($event)"><inputAndDiv [table]="table" [boxName]="getBoxName(rowIndex)" [rowIndex]="rowIndex" [col]="col" [openedId]="openedId" [el]="el"></inputAndDiv></td>
+          <td id="{{rowIndex + '_' + col}}"  attr.data-el="{{el}}" (click)="showInput($event)"><inputAndDiv [table]="table" [boxName]="getBoxName(rowIndex)" [rowIndex]="rowIndex" [col]="col" [openedId]="openedId" [el]="el"></inputAndDiv></td>
           
         </ng-container>
     </tr>
   </tbody>
 </table>
-<button type="button" class="btn btn-success" (click)="check()">check
-  <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
 
+<button type="button" class="btn btn-success" (click)="check()">check</button> 
+<button type="button" class="btn btn-warning" (click)="fillUpInitialTable()">clear table</button>
+<br>
+<button type="button" class="btn btn-light" (click)="loadPreparedData(1)">load level 1</button>
+<button type="button" class="btn btn-info" (click)="loadPreparedData(2)">load level 2
 </button>
-<button type="button" class="btn btn-info" (click)="loadPreparedData()">load prepared table</button>
-<button type="button" class="btn btn-warning" (click)="clearTable()">clear table</button>
+<button type="button" class="btn btn-danger" (click)="loadPreparedData(3)">load level 3</button>
+<br>
+<ng-container *ngIf="isLoading">
+  <div class="spinner-grow text-success" role="status"></div>
+  <div class="spinner-grow text-danger" role="status"></div>
+  <div class="spinner-grow text-warning" role="status"></div>
+</ng-container>
+
+
+
