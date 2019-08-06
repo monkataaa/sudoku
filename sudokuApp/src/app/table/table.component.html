@@ -7,7 +7,7 @@
 <h1>TABLE</h1>
 <table id="customers">
   <tbody>
-    <tr *ngFor="let row of table | keyvalue, let rowIndex = index">
+    <tr *ngFor="let row of table | keyvalue, let rowIndex = index"> 
       <!-- row: {{row}} -->
       <!-- rowKey: {{row.key}} -->
       <!-- rowIndex: {{rowIndex}} -->
@@ -17,7 +17,7 @@
           <!-- el: {{el}} -->
           <!-- {{rowIndex + "_" + col + "_" + el }}  -->
            <!-- name {{getBoxName(rowIndex)}}  -->
-          <td id="{{rowIndex + '_' + col}}" [ngStyle]="getBorderStyle(col, rowIndex)"  (click)="showInput($event)"><inputAndDiv [table]="table" [boxName]="getBoxName(rowIndex)" [rowIndex]="rowIndex" [col]="col" [openedId]="openedId" [el]="el"></inputAndDiv></td>
+          <td id="{{rowIndex + '_' + col}}"  (click)="showInput($event)"><inputAndDiv [table]="table" [boxName]="getBoxName(rowIndex)" [rowIndex]="rowIndex" [col]="col" [openedId]="openedId" [el]="el"></inputAndDiv></td>
           
         </ng-container>
     </tr>

@@ -1,11 +1,17 @@
 $myFont: "Trebuchet MS", Arial, Helvetica, sans-serif;
 $tdOnHover: rgb(138, 193, 219);
+$solidBorder: 3px solid #080808;
 
 #customers {
 
       font-family: $myFont;
       border-collapse: collapse;
       margin: auto;
+
+      border-bottom: $solidBorder;
+      border-right: $solidBorder;
+      border-top: $solidBorder;
+      border-left: $solidBorder;
     
       }
 td, th {
@@ -13,6 +19,16 @@ td, th {
     padding: 8px;
     width: 60px;
     height: 60px;
+  }
+
+  tr td:nth-child(3n)  {
+    border-right: $solidBorder;
+  }
+ 
+
+
+  tr:nth-child(3n) td{
+    border-bottom: $solidBorder;
   }
   
      
@@ -23,7 +39,8 @@ td, th {
 
  tr:nth-child(n+4):nth-child(-n+6) td:nth-child(n+4):nth-child(-n+6){
         background-color: white;}
-   
+
+  
   
  td:hover {background-color: $tdOnHover !important; }
   
@@ -35,5 +52,3 @@ td, th {
     color: white;
   }
 
-
-  

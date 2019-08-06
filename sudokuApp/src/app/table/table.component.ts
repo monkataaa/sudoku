@@ -299,27 +299,7 @@ export class TableComponent implements OnInit {
   }
 
 
-  getBorderStyle(col, rowIndex) {
-    let style = {}
-    let solidBorder = "3px solid #080808"
 
-    if (rowIndex == 0 || rowIndex + 2 == 5 || rowIndex + 2 == 8) {
-      style['border-top'] = solidBorder
-    }
-    if (col == 0 || col + 2 == 5 || col + 2 == 8) {
-      style['border-left'] = solidBorder
-    }
-
-    if (col == 8) {
-      style['border-right'] = solidBorder
-    }
-    if (rowIndex == 8) {
-      style['border-bottom'] = solidBorder
-    }
-
-    return style
-
-  }
 
 
 }
