@@ -12,7 +12,7 @@ import { ApiService } from '../services/api.service';
 })
 export class TableComponent implements OnInit {
 
-  constructor(private toastr: ToastrService, private apiService: ApiService){}
+  constructor(private toastr: ToastrService, private apiService: ApiService) { }
 
 
   public isLoading: boolean = false;
@@ -23,21 +23,21 @@ export class TableComponent implements OnInit {
     // this.loadPreparedData()
     // this.check()
   }
-  
+
   public openedId: string = null
 
   fillUpArray() {
-    for (let objCube = 0; objCube < 9; objCube++) {
-      this.table[this.getName(objCube)] = {}
+    for (let col = 0; col < 9; col++) {
+      let boxName = this.getBoxName(col)
+      this.table[boxName] = {}
       for (let row = 0; row < 9; row++) {
-        this.table[this.getName(objCube)][this.getName(objCube) + (row + 1)] = ""
+        let fieldName = boxName + (row + 1);
+        this.table[boxName][fieldName] = ""
       }
     }
 
   }
-  getKeyValue(obj, index) {
-    return Object.keys(obj)[index];
-  }
+
 
   loadPreparedData() {
     this.table = JSON.parse(JSON.stringify(this.PreparedData.preparedTable))
@@ -53,14 +53,9 @@ export class TableComponent implements OnInit {
     return Object.keys(obj);
   }
 
-  checkRowIndex(rowIndex, check1, check2, check3) {
-    if (rowIndex == check1 || rowIndex == check2 || rowIndex == check3) {
-      return true;
-    }
-    return false;
-  }
 
-  getName(index) {
+
+  getBoxName(index) {
     switch (index) {
       case 0: return 'a';
       case 1: return 'b';
@@ -96,68 +91,68 @@ export class TableComponent implements OnInit {
   }
 
 
-   check() {
+  check() {
     this.isLoading = true;
     let trials = 0;
     //hack:  used setTimeout cause the change of isLoading status is not detected 
-    setTimeout(() => {  
-    while (this.sumAllFilledPositions() <= ValueLimits.maxFilledPositions && trials <= ValueLimits.maxTrials) {
-      if (trials == ValueLimits.maxTrials) {
-        this.toastr.error("We coudn't solve your Sudoku. Please check again your initial numbers input. Please note, that this Solver is only for Sudoku level: Easy.")
-        this.isLoading = false
-        break;
-      }
-      trials++;
-      
-      if (this.sumAllFilledPositions() == ValueLimits.maxFilledPositions) {
-        this.isLoading = false
-        this.toastr.success("We solved your Sudoku successfully !", "Success")
-        break;
-      }
+    setTimeout(() => {
+      while (this.sumAllFilledPositions() <= ValueLimits.maxFilledPositions && trials <= ValueLimits.maxTrials) {
+        if (trials == ValueLimits.maxTrials) {
+          this.toastr.error("We coudn't solve your Sudoku. Please check again your initial numbers input. Please note, that this Solver is only for Sudoku level: Easy.")
+          this.isLoading = false
+          break;
+        }
+        trials++;
 
-      //tableBoxesArr is a,b,c,d...
-      let tableBoxesArr = Object.keys(this.table)
-      tableBoxesArr.filter(box => {
-
-        let assignedNumbersArr = []
-        let emptyPositions = {}
-        let tableKeys = Object.keys(this.table[box])
-        tableKeys.filter((key, index) => {
-          if (this.table[box][key] !== "") {
-            assignedNumbersArr.push(Number(this.table[box][key]))
-          } else {
-            //a4: {row: 1, col: 0}
-            let [col, row] = this.defineCol(key, index)
-            emptyPositions[key] = {}
-            emptyPositions[key]["box"] = box
-            emptyPositions[key]["row"] = row
-            emptyPositions[key]["col"] = col
-            emptyPositions[key]["key"] = key
-
-          }
-        })
-        for (let i = 1; i <= 9; i++) {
-          let matchedPossibilities: number = 0
-          let matchedPositionObj: {} = {}
-          if (!assignedNumbersArr.includes(i)) {
-            Object.keys(emptyPositions).filter(emptyKey => {
-              this.checkTable(i, emptyPositions[emptyKey]['box'], emptyPositions[emptyKey]['row'], emptyPositions[emptyKey]['col'])
-              if (this.checkTable(i, emptyPositions[emptyKey]['box'], emptyPositions[emptyKey]['row'], emptyPositions[emptyKey]['col'])) {
-                ++matchedPossibilities
-                matchedPositionObj = emptyPositions[emptyKey]
-              }
-            })
-          }
-          if (matchedPossibilities == 1 && matchedPositionObj && Object.keys(matchedPositionObj).length !== 0) {
-            let positionBox = matchedPositionObj["box"]
-            let positionKey = matchedPositionObj["key"]
-            this.table[positionBox][positionKey] = i
-          }
+        if (this.sumAllFilledPositions() == ValueLimits.maxFilledPositions) {
+          this.isLoading = false
+          this.toastr.success("We solved your Sudoku successfully !", "Success")
+          break;
         }
 
-      })
-    }
-  }, 10);
+        //tableBoxesArr is a,b,c,d...
+        let tableBoxesArr = Object.keys(this.table)
+        tableBoxesArr.filter(box => {
+
+          let assignedNumbersArr = []
+          let emptyPositions = {}
+          let tableKeys = Object.keys(this.table[box])
+          tableKeys.filter((key, index) => {
+            if (this.table[box][key] !== "") {
+              assignedNumbersArr.push(Number(this.table[box][key]))
+            } else {
+              //a4: {row: 1, col: 0}
+              let [col, row] = this.defineCol(key, index)
+              emptyPositions[key] = {}
+              emptyPositions[key]["box"] = box
+              emptyPositions[key]["row"] = row
+              emptyPositions[key]["col"] = col
+              emptyPositions[key]["key"] = key
+
+            }
+          })
+          for (let i = 1; i <= 9; i++) {
+            let matchedPossibilities: number = 0
+            let matchedPositionObj: {} = {}
+            if (!assignedNumbersArr.includes(i)) {
+              Object.keys(emptyPositions).filter(emptyKey => {
+                this.checkTable(i, emptyPositions[emptyKey]['box'], emptyPositions[emptyKey]['row'], emptyPositions[emptyKey]['col'])
+                if (this.checkTable(i, emptyPositions[emptyKey]['box'], emptyPositions[emptyKey]['row'], emptyPositions[emptyKey]['col'])) {
+                  ++matchedPossibilities
+                  matchedPositionObj = emptyPositions[emptyKey]
+                }
+              })
+            }
+            if (matchedPossibilities == 1 && matchedPositionObj && Object.keys(matchedPositionObj).length !== 0) {
+              let positionBox = matchedPositionObj["box"]
+              let positionKey = matchedPositionObj["key"]
+              this.table[positionBox][positionKey] = i
+            }
+          }
+
+        })
+      }
+    }, 10);
 
   }
 
@@ -215,11 +210,10 @@ export class TableComponent implements OnInit {
     if (rowIndex % 3 == 2) {
       indexLevel = "high"
     }
-    let manyTimes = 0
     //..but the search should start from the index of the first box related to this row. 
     //if the rowIndex is 0-2 the search starts from a, if the row is between 3 and 5, the search should start with box d to f..
     for (let i = startIndex; i < startIndex + 3; i++) {
-      let box = this.getName(i)
+      let box = this.getBoxName(i)
       Object.keys(this.table[box]).filter((keyInBox, indexInBox) => {
         //the search is allays in the box and should be determined in which  row from that box is the found number
         let currentIndexLevel = ''
@@ -263,10 +257,9 @@ export class TableComponent implements OnInit {
       indexLevel = "high"
     }
 
-    let manyTimes = 0
     //for loop for searching firstly in the box 
     for (let i = startIndex; i < 9; i += 3) {
-      let box = this.getName(i)
+      let box = this.getBoxName(i)
       Object.keys(this.table[box]).filter((keyInBox, indexInBox) => {
         //the search is allays in the box and should be determined in which  col from that box is the found number
         let currentIndexLevel = ''
@@ -305,36 +298,24 @@ export class TableComponent implements OnInit {
     this.openedId = incomingId
   }
 
-  getTdId(rowIndex, col) {
-    return 'tdId' + this.getKeyValue(this.table[this.getName(rowIndex)], col)
-  }
-
-  getTdValue(rowIndex, col) {
-    return this.table[this.getName(rowIndex)][this.getKeyValue(this.table[this.getName(rowIndex)], col)]
-  }
 
   getBorderStyle(col, rowIndex) {
     let style = {}
+    let solidBorder = "3px solid #080808"
 
     if (rowIndex == 0 || rowIndex + 2 == 5 || rowIndex + 2 == 8) {
-      style['border-top'] = '3px solid #080808'
-    }
-    if (rowIndex == 8) {
-      style['border-bottom'] = '3px solid #080808'
+      style['border-top'] = solidBorder
     }
     if (col == 0 || col + 2 == 5 || col + 2 == 8) {
-      style['border-left'] = '3px solid #080808'
-
+      style['border-left'] = solidBorder
     }
+
     if (col == 8) {
-      style['border-right'] = '3px solid #080808'
-
+      style['border-right'] = solidBorder
     }
-
-    // if (((col > 2  && col < 6) && (rowIndex < 3 || rowIndex > 5))
-    //     || ((rowIndex > 2 && rowIndex < 6) && (col < 3 || col > 5))) {
-    //   style["background-color"] = "#ebebeb"
-    // }
+    if (rowIndex == 8) {
+      style['border-bottom'] = solidBorder
+    }
 
     return style
 

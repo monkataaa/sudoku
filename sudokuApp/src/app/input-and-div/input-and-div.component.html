@@ -1,4 +1,4 @@
-<input *ngIf="openedId == getTdId(rowIndex, col)" myNumberOnly  type="text"
+<input *ngIf="openedId == rowIndex + '_' + col" myNumberOnly  type="text"
 (keyup.enter)="openedId = null"  [autofocus]="true" size="2"
-[(ngModel)]="table[getName(rowIndex  )][getKeyValue(table[getName(rowIndex )], col  )]">
-<div *ngIf="openedId != getTdId(rowIndex, col)">{{getTdValue(rowIndex, col)}}</div> 
+[(ngModel)]="table[boxName][el]">
+<div *ngIf="openedId != rowIndex + '_' + col">{{table[boxName][el]}}</div> 
