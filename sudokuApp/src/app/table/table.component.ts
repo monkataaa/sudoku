@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { async } from '@angular/core/testing';
-import { ValueLimits } from '../utilities/valueLimits';
-import { PreparedData } from '../utilities/preparedData';
 import { ApiService } from '../services/api.service';
+import { ValueLimits } from '../utilities/valueLimits';
 
 @Component({
   selector: 'app-table',
@@ -16,282 +14,126 @@ export class TableComponent implements OnInit {
 
 
   public isLoading: boolean = false;
-  public table: Object = {}
-  public PreparedData: PreparedData = new PreparedData();
+  public tableArr: any[][] = [];
+  public solvedArr: any[][] = [];
+  private emptyElement: string = '';
+  private calledTimes: number = 0
+  private hasError: boolean = false;
+  private showSuccess: boolean = false;
+  private hasGotPreparedGame: boolean = false;
+  private isSolved: boolean = false;
+
+
   ngOnInit() {
     this.fillUpInitialTable()
     // this.loadPreparedData(1);
     // this.check()
   }
 
-  public openedId: string = null
+  private openedId: string = null
 
-  
+
 
   fillUpInitialTable() {
-    for (let col = 0; col < 9; col++) {
-      let boxName = this.getBoxName(col)
-      this.table[boxName] = {}
-      for (let row = 0; row < 9; row++) {
-        let fieldName = boxName + (row + 1);
-        this.table[boxName][fieldName] = ""
+    this.calledTimes = 0;
+    this.hasError = false;
+    this.showSuccess = false;
+    this.isSolved = false;
+    this.tableArr = [];
+    for (let i = 0; i < 9; i++) {
+      let currentarrArr = []
+      for (let y = 0; y < 9; y++) {
+        currentarrArr.push('')
       }
+      this.tableArr.push(currentarrArr);
     }
+
+    this.solvedArr = this.tableArr.map((currentArr) => {
+      return currentArr.slice(0);
+    })
 
   }
 
- 
+  checkUserSolution() {
 
-  loadPreparedData(level) {
+    if (!this.hasGotPreparedGame && !this.isSolved){
+      this.solvedArr = this.tableArr.map((currentArr) => {
+        return currentArr.slice(0);
+      })
+
+      this.solveSudoku(this.solvedArr);
+    }
+
+
+    for (let row = 0; row < this.tableArr.length; row++) {
+      for (let col = 0; col < this.tableArr.length; col++) {
+        if (this.tableArr[row][col]) {
+          if (Number(this.tableArr[row][col]) !== Number(this.solvedArr[row][col])) {
+            this.hasError = true
+            this.toastr.error("We are sorry to say... your solution has errors !")
+            setTimeout(() => {
+              this.hasError = false
+            }, 5000);
+            return
+          }
+        }
+      }
+    }
+    this.showSuccess = true;
+    this.toastr.success("your solution has no errors")
+    setTimeout(() => {
+      this.showSuccess = false
+    }, 2000);
+    return
+
+  }
+
+
+
+
+
+
+  public loadPreparedData(level): void {
+    this.hasGotPreparedGame = true;
     this.isLoading = true;
-    // this.table = JSON.parse(JSON.stringify(this.PreparedData.preparedTable))
     this.fillUpInitialTable();
     this.apiService.getSudoku(level).subscribe(res => {
+      let currentX = 0
       res["squares"].map((data) => {
-        let {x, y, value} = data
-        let elem = document.getElementById(x + "_" +y).getAttribute('data-el');
-        let box = elem.substring(0, 1)
-        this.table[box][elem] = value
+        let { x, y, value } = data
+        if (currentX == x) {
+          this.tableArr[x][y] = value
+        } else {
+          currentX = x
+          this.tableArr[x][y] = value
+        }
       })
+      this.solvedArr = this.tableArr.map((currentArr) => {
+        return currentArr.slice(0);
+      });
       this.isLoading = false;
+      this.solveSudoku(this.solvedArr);
     })
 
   }
- 
-
-  transferToArr(obj) {
-    return Object.keys(obj);
-  }
 
 
+  showSolvedSudoku() {
 
-  getBoxName(index) {
-    switch (index) {
-      case 0: return 'a';
-      case 1: return 'b';
-      case 2: return 'c';
-      case 3: return 'd';
-      case 4: return 'e';
-      case 5: return 'f';
-      case 6: return 'g';
-      case 7: return 'h';
-      case 8: return 'i';
-    }
-  }
-
-
-
-  checkTable(numberToTry, box, row, col) {
-    let checInBoxValue = this.checInBox(box, numberToTry)
-    let checkInRowValue = this.checkInRow(row, numberToTry)
-    let checkInColValue = this.checkInCol(col, numberToTry)
-
-    if (checInBoxValue && checkInRowValue && checkInColValue) {
-      return true
-    }
-    return false
-  }
-
-  sumAllFilledPositions() {
-    let sumAllPositions = Object.values(this.table).map(box => {
-      let sumAllBoxPositions = Object.values(box).filter(value => { return value != "" }).length
-      return sumAllBoxPositions
-    }).reduce((a, b) => a + b)
-    return sumAllPositions
-  }
-
-
-  check() {
-    this.isLoading = true;
-    let trials = 0;
-    //hack:  used setTimeout cause the change of isLoading status is not detected 
-    setTimeout(() => {
-      while (this.sumAllFilledPositions() <= ValueLimits.maxFilledPositions && trials <= ValueLimits.maxTrials) {
-        if (trials == ValueLimits.maxTrials) {
-          this.toastr.error("We coudn't solve your Sudoku. Please check again your initial numbers input. Please note, that this Solver is only for Sudoku level: Easy.")
-          this.isLoading = false
-          break;
-        }
-        trials++;
-
-        if (this.sumAllFilledPositions() == ValueLimits.maxFilledPositions) {
-          this.isLoading = false
-          this.toastr.success("We solved your Sudoku successfully !", "Success")
-          break;
-        }
-
-        //tableBoxesArr is a,b,c,d...
-        let tableBoxesArr = Object.keys(this.table)
-        tableBoxesArr.filter(box => {
-
-          let assignedNumbersArr = []
-          let emptyPositions = {}
-          let tableKeys = Object.keys(this.table[box])
-          tableKeys.filter((key, index) => {
-            if (this.table[box][key] !== "") {
-              assignedNumbersArr.push(Number(this.table[box][key]))
-            } else {
-              //a4: {row: 1, col: 0}
-              let [col, row] = this.defineCol(key, index)
-              emptyPositions[key] = {}
-              emptyPositions[key]["box"] = box
-              emptyPositions[key]["row"] = row
-              emptyPositions[key]["col"] = col
-              emptyPositions[key]["key"] = key
-
-            }
-          })
-          for (let i = 1; i <= 9; i++) {
-            let matchedPossibilities: number = 0
-            let matchedPositionObj: {} = {}
-            if (!assignedNumbersArr.includes(i)) {
-              Object.keys(emptyPositions).filter(emptyKey => {
-                this.checkTable(i, emptyPositions[emptyKey]['box'], emptyPositions[emptyKey]['row'], emptyPositions[emptyKey]['col'])
-                if (this.checkTable(i, emptyPositions[emptyKey]['box'], emptyPositions[emptyKey]['row'], emptyPositions[emptyKey]['col'])) {
-                  ++matchedPossibilities
-                  matchedPositionObj = emptyPositions[emptyKey]
-                }
-              })
-            }
-            if (matchedPossibilities == 1 && matchedPositionObj && Object.keys(matchedPositionObj).length !== 0) {
-              let positionBox = matchedPositionObj["box"]
-              let positionKey = matchedPositionObj["key"]
-              this.table[positionBox][positionKey] = i
-            }
-          }
-
-        })
-      }
-    }, 10);
-
-  }
-
-  defineCol(key, index) {
-    let box = key.substring(0, 1)
-    let col = index % 3
-    let row = Math.floor(index / 3)
-    switch (box) {
-      case 'a': col += 0; break;
-      case 'b': col += 3; break;
-      case 'c': col += 6; break;
-      case 'd': col += 0; row += 3; break;
-      case 'e': col += 3; row += 3; break;
-      case 'f': col += 6; row += 3; break;
-      case 'g': col += 0; row += 6; break;
-      case 'h': col += 3; row += 6; break;
-      case 'i': col += 6; row += 6; break;
-
-      default:
-        break;
-    }
-    return [col, row]
-  }
-
-  checInBox(box, numberToTry) {
-    let isEmptyBox: boolean = true
-    Object.keys(this.table[box]).filter(keyInBox => {
-      if (this.table[box][keyInBox] == numberToTry) {
-        isEmptyBox = false
-      }
-    })
-    return isEmptyBox
-  }
-
-  checkInRow(rowIndex, numberToTry) {
-    let indexLevel = ''
-    let startIndex = 0
-
-    let isEmptyRow: boolean = true
-
-    //you get the row index, 
-    if (rowIndex > 2 && rowIndex < 6) {
-      startIndex = 3
-    }
-    if (rowIndex > 5) {
-      startIndex = 6
-    }
-
-    if (rowIndex % 3 == 0) {
-      indexLevel = 'low'
-    }
-    if (rowIndex % 3 == 1) {
-      indexLevel = "middle"
-    }
-    if (rowIndex % 3 == 2) {
-      indexLevel = "high"
-    }
-    //..but the search should start from the index of the first box related to this row. 
-    //if the rowIndex is 0-2 the search starts from a, if the row is between 3 and 5, the search should start with box d to f..
-    for (let i = startIndex; i < startIndex + 3; i++) {
-      let box = this.getBoxName(i)
-      Object.keys(this.table[box]).filter((keyInBox, indexInBox) => {
-        //the search is allays in the box and should be determined in which  row from that box is the found number
-        let currentIndexLevel = ''
-        if (indexInBox < 3) {
-          currentIndexLevel = 'low'
-        } else if (indexInBox > 2 && indexInBox < 6) {
-          currentIndexLevel = "middle"
-        } else { currentIndexLevel = "high" }
-
-        if (indexLevel === currentIndexLevel && this.table[box][keyInBox] == numberToTry) {
-          isEmptyRow = false
-        }
+    if (this.hasGotPreparedGame) {
+      this.tableArr = this.solvedArr.map((currentArr) => {
+        return currentArr.slice(0);
       })
-    }
-    return isEmptyRow
-  }
+      this.toastr.success("We solved your Sudoku successfully !", "Success")
 
-  checkInCol(colIndex, numberToTry) {
-    let indexLevel = ''
-
-    let isEmptyCol: boolean = true
-
-    let startIndex = 0
-    if (colIndex > 2 && colIndex < 6) {
-      startIndex = 1
+    } else {
+      this.solveSudoku(this.tableArr);
     }
-    if (colIndex > 5) {
-      startIndex = 2
-    }
-
-    //if the colIndex is between 0 to 2, the boxes that will be searched are a,d,g
-    //if the colIndex is between 3 to 5, the boxes that will be searched are b,e,h
-    //if the colIndex is between 6 to 8, the boxes that will be searched are c,f,i
-    if (colIndex % 3 == 0) {
-      indexLevel = 'low'
-    }
-    if (colIndex % 3 == 1) {
-      indexLevel = "middle"
-    }
-    if (colIndex % 3 == 2) {
-      indexLevel = "high"
-    }
-
-    //for loop for searching firstly in the box 
-    for (let i = startIndex; i < 9; i += 3) {
-      let box = this.getBoxName(i)
-      Object.keys(this.table[box]).filter((keyInBox, indexInBox) => {
-        //the search is allays in the box and should be determined in which  col from that box is the found number
-        let currentIndexLevel = ''
-        if (indexInBox % 3 == 0) {
-          currentIndexLevel = 'low'
-        } else if (indexInBox % 3 == 1) {
-          currentIndexLevel = "middle"
-        } else if (indexInBox % 3 == 2) {
-          currentIndexLevel = "high"
-        }
-
-        // if the searched col is the same like the col in which the number is found - then we have a success
-        if (indexLevel === currentIndexLevel && this.table[box][keyInBox] == numberToTry) {
-          isEmptyCol = false
-        }
-      })
-    }
-    return isEmptyCol
 
   }
 
-  showInput(ev) {
+
+  public showInput(ev): void {
     if (ev.target.localName == "input") {
       return
     }
@@ -310,6 +152,196 @@ export class TableComponent implements OnInit {
 
 
 
+  //////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////
+
+
+  /*
+    Authorship: ALL credit for the code in this file goes to the authors of the
+    book "Elements of Programming Interviews" by Adnan Aziz, Amit Prakash, and
+    Tsung-Hsien Lee.
+    
+    I have just adapted the solution to pass on Leetcode, added explanatory
+    comments, reformatted the code, & changed variable names for understanding.
+    Sudoku Solver - LeetCode: https://leetcode.com/problems/sudoku-solver/
+    This code passes all Leetcode test cases as of Jan. 8 2019 (12:18 am)
+    Runtime: 11 ms*, faster than 73.28% of Java online submissions for Sudoku Solver.
+    * Funny Note: Took me 30 minutes of unchecked code editing (no IDE) to get the code
+    in working order before I first ran it. IT WORKED FIRST RUN IN LEETCODE. No syntax
+    errors, no out of bounds exceptions. That is so impossible, but I'll take it.
+    The video to explain this code is here: https://www.youtube.com/watch?v=JzONv5kaPJM
+  */
+
+
+  /*
+    Driver function to kick off the recursion
+  */
+  public solveSudoku(table): void {
+    return this.solveSudokuCell(0, 0, table);
+  }
+
+  /*
+    This function chooses a placement for the cell at (row, col)
+    and continues solving based on the rules we define.
+    
+    Our strategy:
+    We will start at row 0.
+    We will solve every column in that row.
+    When we reach the last column we move to the next row.
+    If this is past the last row (row == board.length) we are done.
+    The whole board has been solved.
+  */
+
+
+  private solveSudokuCell(row, col, table) {
+
+    ++this.calledTimes
+
+    if (this.calledTimes >= ValueLimits.maxTrials) {
+      this.hasError = true;
+      this.toastr.error("We coudn't solve your Sudoku. Please check again your initial numbers input !")
+      setTimeout(() => {
+        this.hasError = false
+      }, 5000);
+      return true;
+    }
+
+    /*
+      Have we finished placements in all columns for
+      the row we are working on?
+    */
+
+    if (col == table[row].length) {
+
+      /*
+        Yes. Reset to col 0 and advance the row by 1.
+        We will work on the next row.
+      */
+      col = 0;
+      row++;
+
+      /*
+        Have we completed placements in all rows? If so then we are done.
+        If not, drop through to the logic below and keep solving things.
+      */
+      if (row == table.length) {
+        if (!this.hasGotPreparedGame) {
+          this.showSuccess = true;
+          this.isSolved = true
+          if (!this.hasGotPreparedGame) {
+            this.toastr.success("We successfully solved your Sudoku !", "Success")
+          }
+          setTimeout(() => {
+            this.showSuccess = false
+          }, 2000);
+        }
+        return true; // Entire board has been filled without conflict.
+      }
+
+    }
+
+    // Skip non-empty entries. They already have a value in them.
+    if (table[row][col] != this.emptyElement) {
+      return this.solveSudokuCell(row, col + 1, table);
+    }
+
+    /*
+      Try all values 1 through 9 in the cell at (row, col).
+      Recurse on the placement if it doesn't break the constraints of Sudoku.
+    */
+    for (let value = 1; value <= table.length; value++) {
+
+      let charToPlace = value; // convert int value to char
+
+      /*
+        Apply constraints. We will only add the value to the cell if
+        adding it won't cause us to break sudoku rules.
+      */
+      if (this.canPlaceValue(table, row, col, charToPlace)) {
+        table[row][col] = charToPlace;
+        if (this.solveSudokuCell(row, col + 1, table)) { // recurse with our VALID placement
+          return true;
+        }
+      }
+
+    }
+
+    /*
+      Undo assignment to this cell. No values worked in it meaning that
+      previous states put us in a position we cannot solve from. Hence,
+      we backtrack by returning "false" to our caller.
+    */
+    table[row][col] = this.emptyElement;
+    return false; // No valid placement was found, this path is faulty, return false
+  }
+
+  /*
+    Will the placement at (row, col) break the Sudoku properties?
+  */
+  private canPlaceValue(board, row, col, charToPlace) {
+
+    // Check column constraint. For each row, we do a check on column "col".
+    for (let i = 0; i < board.length; i++) {
+      if (charToPlace == board[i][col]) {
+        return false;
+      }
+
+    }
+
+    // Check row constraint. For each column in row "row", we do a check.
+    for (let i = 0; i < board.length; i++) {
+      if (charToPlace == board[row][i]) {
+        return false;
+      }
+    }
+
+    /*
+      Check region constraints.
+      
+      In a 9 x 9 board, we will have 9 sub-boxes (3 rows of 3 sub-boxes).
+      
+      The "I" tells us that we are in the Ith sub-box row. (there are 3 sub-box rows)
+      The "J" tells us that we are in the Jth sub-box column. (there are 3 sub-box columns)
+      
+      Integer properties will truncate the decimal place so we just know the sub-box number we are in.
+      Each coordinate we touch will be found by an offset from topLeftOfSubBoxRow and topLeftOfSubBoxCol.
+    */
+
+    let regionSize = Number(Math.sqrt(board.length)); // gives us the size of a sub-box
+
+
+    let I = Math.floor(row / regionSize);
+    let J = Math.floor(col / regionSize);
+
+    /*
+      This multiplication takes us to the EXACT top left of the sub-box. We keep the (row, col)
+      of these values because it is important. It lets us traverse the sub-box with our double for loop.
+    */
+    let topLeftOfSubBoxRow = regionSize * I; // the row of the top left of the block
+    let topLeftOfSubBoxCol = regionSize * J; // the column of the tol left of the block
+
+    // console.log('topLeftOfSubBoxRow', topLeftOfSubBoxRow);
+
+    for (let i = 0; i < regionSize; i++) {
+      for (let j = 0; j < regionSize; j++) {
+
+        /*
+          i and j just define our offsets from topLeftOfBlockRow
+          and topLeftOfBlockCol respectively
+        */
+        //  console.log('stop', board[topLeftOfSubBoxRow + i]);
+        if (!board[topLeftOfSubBoxRow + i]) {
+          debugger
+        }
+        if (charToPlace == board[topLeftOfSubBoxRow + i][topLeftOfSubBoxCol + j]) {
+          return false;
+        }
+
+      }
+    }
+
+    return true; // placement is valid
+  }
 
 
 }

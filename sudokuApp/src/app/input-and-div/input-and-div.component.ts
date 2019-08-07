@@ -10,11 +10,17 @@ export class InputAndDivComponent  {
 
 
   @Input() openedId: string = null
+  @Input() elemId: string = null
   @Input() rowIndex: number = null
   @Input() col: number = null
-  @Input() table
-  @Input() el: string = null
-  @Input() boxName: string = null
+  @Input() tableArr: any[][];
+
+  setNumberValueToTablleArr(stringValue){
+    if (!stringValue) {
+      return this.tableArr[this.rowIndex][this.col] = "";
+    }
+    this.tableArr[this.rowIndex][this.col] = Number(stringValue)
+  }
   
   
 }

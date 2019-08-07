@@ -1,4 +1,4 @@
 export enum ValueLimits {
-    maxTrials = 2000,
+    maxTrials = 1000,
     maxFilledPositions = 81
 }

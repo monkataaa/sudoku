@@ -1,4 +1,4 @@
-<input *ngIf="openedId == rowIndex + '_' + col" myNumberOnly  type="text"
+<input *ngIf="openedId == elemId" myNumberOnly  type="text"
 (keyup.enter)="openedId = null"  [autofocus]="true" size="2"
-[(ngModel)]="table[boxName][el]">
-<div *ngIf="openedId != rowIndex + '_' + col">{{table[boxName][el]}}</div> 
+[ngModel]="tableArr[rowIndex][col]" (ngModelChange)="setNumberValueToTablleArr($event)">
+<div *ngIf="openedId != elemId"> {{tableArr[rowIndex][col]}}</div> 

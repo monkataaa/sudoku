@@ -21,34 +21,34 @@ td, th {
     height: 60px;
   }
 
-  tr td:nth-child(3n)  {
+tr td:nth-child(3n)  {
     border-right: $solidBorder;
   }
  
 
 
-  tr:nth-child(3n) td{
+tr:nth-child(3n) td{
     border-bottom: $solidBorder;
   }
   
      
- tr:nth-child(n+4):nth-child(-n+6){
+  .normalState tr:nth-child(n+4):nth-child(-n+6){
      background-color: #ebebeb;}
- td:nth-child(n+4):nth-child(-n+6){
+  .normalState td:nth-child(n+4):nth-child(-n+6){
       background-color: #ebebeb;}
 
- tr:nth-child(n+4):nth-child(-n+6) td:nth-child(n+4):nth-child(-n+6){
+  .normalState  tr:nth-child(n+4):nth-child(-n+6) td:nth-child(n+4):nth-child(-n+6){
         background-color: white;}
 
   
   
- td:hover {background-color: $tdOnHover !important; }
+td:hover {background-color: $tdOnHover !important; }
   
- th {
-    padding-top: 12px;
-    padding-bottom: 12px;
-    text-align: left;
-    background-color: #4CAF50;
-    color: white;
-  }
+  //       .normalState th {
+  //   padding-top: 12px;
+  //   padding-bottom: 12px;
+  //   text-align: left;
+  //   background-color: #4CAF50;
+  //   color: white;
+  // }
 
