@@ -12,16 +12,24 @@ $solidBorder: 3px solid #080808;
       border-right: $solidBorder;
       border-top: $solidBorder;
       border-left: $solidBorder;
-
       }
+
+      // @media only screen and (max-width: 1000px) {
+      //   td, th {
+      //     background-color: red;
+      //     width: 4vw;
+      //     height: 4vw;
+      //   }
+      // }
+
 td, th {
     border: 1px solid #ddd;
-    // padding: 8px;
-    // width: 60px;
-    // height: 60px;
+    padding: 8px;
+    width: 60px;
+    height: 60px;
 
-    width: 4vw;
-    height: 4vw;
+    // width: 4vw;
+    // height: 4vw;
   }
 
 tr td:nth-child(3n)  {
