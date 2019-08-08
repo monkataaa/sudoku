@@ -9,19 +9,22 @@
 <br>  ------------ <br>
 solvedArr: {{solvedArr | json}} -->
 
-<table id="customers" class="normalState" [ngClass]="{'normalState': !hasError && !showSuccess, 'alert alert-danger': hasError, 'alert alert-success': showSuccess}">
+<table id="customers" [ngClass]="{'normalState': !hasError && !showSuccess, 'alert alert-danger': hasError, 'alert alert-success': showSuccess}">
   <tbody>
-    <tr *ngFor="let row of tableArr, let rowIndex = index" > 
-        <ng-container *ngFor="let el of row , let col =  index" >
-          <td class="normalState" id="{{rowIndex + '_' + col}}"  attr.data-el="{{el}}" (click)="showInput($event)"><inputAndDiv elemId="{{rowIndex + '_' + col}}" [tableArr]="tableArr" [rowIndex]="rowIndex" [col]="col" [openedId]="openedId"></inputAndDiv></td>
-        </ng-container>
+    <tr *ngFor="let row of tableArr, let rowIndex = index">
+      <ng-container *ngFor="let el of row , let col =  index">
+        <td id="{{rowIndex + '_' + col}}" attr.data-el="{{el}}" (click)="showInput($event)">
+          <inputAndDiv elemId="{{rowIndex + '_' + col}}" [tableArr]="tableArr" [rowIndex]="rowIndex" [col]="col"
+            [openedId]="openedId"></inputAndDiv>
+        </td>
+      </ng-container>
     </tr>
   </tbody>
 </table>
 
 
-<button type="button" class="btn btn-secondary" (click)="checkUserSolution()">check my solution</button> 
-<button type="button" class="btn btn-success" (click)="showSolvedSudoku()">solve it for me please</button> 
+<button type="button" class="btn btn-secondary" (click)="checkUserSolution()">check my solution</button>
+<button type="button" class="btn btn-success" (click)="showSolvedSudoku()">solve it for me please</button>
 <button type="button" class="btn btn-warning" (click)="fillUpInitialTable()">clear table</button>
 <br>
 <button type="button" class="btn btn-light" (click)="loadPreparedData(1)">load level 1</button>
@@ -34,6 +37,3 @@ solvedArr: {{solvedArr | json}} -->
   <div class="spinner-grow text-danger" role="status"></div>
   <div class="spinner-grow text-warning" role="status"></div>
 </ng-container>
-
-
-

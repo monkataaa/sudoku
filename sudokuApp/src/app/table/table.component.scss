@@ -5,20 +5,23 @@ $solidBorder: 3px solid #080808;
 #customers {
 
       font-family: $myFont;
-      border-collapse: collapse;
+      // border-collapse: collapse;
       margin: auto;
 
       border-bottom: $solidBorder;
       border-right: $solidBorder;
       border-top: $solidBorder;
       border-left: $solidBorder;
-    
+
       }
 td, th {
     border: 1px solid #ddd;
-    padding: 8px;
-    width: 60px;
-    height: 60px;
+    // padding: 8px;
+    // width: 60px;
+    // height: 60px;
+
+    width: 4vw;
+    height: 4vw;
   }
 
 tr td:nth-child(3n)  {
