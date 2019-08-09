@@ -1,4 +1,4 @@
-<input *ngIf="openedId == elemId" myNumberOnly  type="text"
+<input *ngIf="openedId == elemId"   type="text"
 (keyup.enter)="openedId = null"  [autofocus]="true" size="2"
-[(ngModel)]="tableArr[rowIndex][col]"  (keydown)="onPressedKey($event)" >
+[ngModel]="tableArr[rowIndex][col]"  (keydown)="onPressedKey($event)" >
 <div *ngIf="openedId != elemId"> {{tableArr[rowIndex][col]}}</div> 

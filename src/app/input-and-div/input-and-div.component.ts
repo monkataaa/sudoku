@@ -18,32 +18,26 @@ export class InputAndDivComponent {
 
   @Output() updateOpenedId: EventEmitter<any> = new EventEmitter()
 
- 
-  placeholder
 
-  
-
-
-  // setNumberValueToTablleArr(stringValue){
-  //   console.log('stringValue', stringValue);
-  //   const regex: RegExp = new RegExp(/^[\d]$/g);
-  //   let current: string = stringValue;
-  //   // let next: string = current.concat(event.key);
-  //   // if (current && !current.match(regex)) {
-  //   //   stringValue.preventDefault();
-  //   // }
-  //   if (current && current.match(regex)) {
-  //     console.log('current next', current);
-  //       if (!stringValue) {
-  //         return this.tableArr[this.rowIndex][this.col] = "";
-  //       }
-  //       this.tableArr[this.rowIndex][this.col] = Number(stringValue)
-  //   }
-
-    
-  // }
 
   onPressedKey(e) {
+
+    if (!Number(e.key)) {
+      e.preventDefault()
+    }
+
+    let newValue = Number(e.key)
+
+    if (newValue === 0) {
+      this.tableArr[this.rowIndex][this.col] = ""
+    }
+
+    if (newValue) {
+      this.tableArr[this.rowIndex][this.col] = Number(newValue)
+      e.preventDefault()
+    }
+
+
     let newOpenedId
     if (e.shiftKey && (e.key === "Tab")) {
       newOpenedId = this.rowIndex + '_' + (this.col - 1)
@@ -56,7 +50,7 @@ export class InputAndDivComponent {
       }
 
       this.updateOpenedId.emit(newOpenedId)
-     
+
     } else if (e.key === "Tab") {
       newOpenedId = this.rowIndex + '_' + (this.col + 1)
       if (this.col == 8) {
@@ -66,11 +60,20 @@ export class InputAndDivComponent {
           newOpenedId = (this.rowIndex + 1) + '_' + 0
         }
       }
-
       this.updateOpenedId.emit(newOpenedId)
+
     }
 
 
+    switch (e.key) {
+      case "ArrowUp": this.rowIndex == 0 ? null : this.updateOpenedId.emit((this.rowIndex - 1) + '_' + this.col); break;
+      case "ArrowDown": this.rowIndex == 8 ? null : this.updateOpenedId.emit((this.rowIndex + 1) + '_' + this.col); break;
+      case "ArrowLeft": this.col == 0 ? null : this.updateOpenedId.emit(this.rowIndex + '_' + (this.col - 1)); break;
+      case "ArrowRight": this.col == 8 ? null : this.updateOpenedId.emit(this.rowIndex + '_' + (this.col + 1)); break;
+
+      default: null
+        break;
+    }
 
   }
 }
