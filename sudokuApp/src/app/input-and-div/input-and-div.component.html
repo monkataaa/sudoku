@@ -1,4 +1,0 @@
-<input *ngIf="openedId == elemId" myNumberOnly  type="text"
-(keyup.enter)="openedId = null"  [autofocus]="true" size="2"
-[ngModel]="tableArr[rowIndex][col]" (ngModelChange)="setNumberValueToTablleArr($event)">
-<div *ngIf="openedId != elemId"> {{tableArr[rowIndex][col]}}</div> 
