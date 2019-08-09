@@ -1,21 +1,17 @@
-<p>
-  table works!
-</p>
-
 <h2>Hello from Baar</h2>
 
 <h1>TABLE</h1>
 <!-- tableArr: {{tableArr | json}}
-<br>  ------------ <br>
-solvedArr: {{solvedArr | json}} -->
+  <br>  ------------ <br>
+  solvedArr: {{solvedArr | json}} -->
 
 <table id="customers" [ngClass]="{'normalState': !hasError && !showSuccess, 'alert alert-danger': hasError, 'alert alert-success': showSuccess}">
   <tbody>
     <tr *ngFor="let row of tableArr, let rowIndex = index">
       <ng-container *ngFor="let el of row , let col =  index">
-        <td id="{{rowIndex + '_' + col}}" attr.data-el="{{el}}" (click)="showInput($event)">
+        <td id="{{rowIndex + '_' + col}}" attr.data-el="{{el}}" (click)="showInput(rowIndex + '_' + col)" >
           <inputAndDiv elemId="{{rowIndex + '_' + col}}" [tableArr]="tableArr" [rowIndex]="rowIndex" [col]="col"
-            [openedId]="openedId"></inputAndDiv>
+            [(openedId)]="openedId"></inputAndDiv>
         </td>
       </ng-container>
     </tr>

@@ -22,6 +22,8 @@ export class TableComponent implements OnInit {
   private showSuccess: boolean = false;
   private hasGotPreparedGame: boolean = false;
   private isSolved: boolean = false;
+  private openedId: string = null
+  private isUserCheck: boolean = false;
 
 
   ngOnInit() {
@@ -30,7 +32,6 @@ export class TableComponent implements OnInit {
     // this.check()
   }
 
-  private openedId: string = null
 
 
 
@@ -54,13 +55,14 @@ export class TableComponent implements OnInit {
 
   }
 
+
   checkUserSolution() {
 
     if (!this.hasGotPreparedGame && !this.isSolved){
       this.solvedArr = this.tableArr.map((currentArr) => {
         return currentArr.slice(0);
       })
-
+      this.isUserCheck = true;
       this.solveSudoku(this.solvedArr);
     }
 
@@ -120,7 +122,7 @@ export class TableComponent implements OnInit {
 
   showSolvedSudoku() {
 
-    if (this.hasGotPreparedGame) {
+    if (this.hasGotPreparedGame && this.isSolved) {
       this.tableArr = this.solvedArr.map((currentArr) => {
         return currentArr.slice(0);
       })
@@ -128,26 +130,20 @@ export class TableComponent implements OnInit {
 
     } else {
       this.solveSudoku(this.tableArr);
+      if (this.isSolved) {
+        this.showSuccess = true;
+        this.toastr.success("We successfully solved your Sudoku !", "Success")
+      }
+      setTimeout(() => {
+        this.showSuccess = false
+      }, 2000);
     }
 
   }
 
 
-  public showInput(ev): void {
-    if (ev.target.localName == "input") {
-      return
-    }
-    let incomingId
-    if (ev.target.localName == "div") {
-      incomingId = ev.target.parentNode.id
-    } else {
-      incomingId = ev.target.id
-    }
-
-    if (this.openedId == incomingId) {
-      return
-    }
-    this.openedId = incomingId
+  public showInput(newOpenedId): void {
+    this.openedId = newOpenedId;
   }
 
 
@@ -194,11 +190,13 @@ export class TableComponent implements OnInit {
 
 
   private solveSudokuCell(row, col, table) {
-
+    
+    this.isLoading = true
     ++this.calledTimes
 
     if (this.calledTimes >= ValueLimits.maxTrials) {
       this.hasError = true;
+      this.isLoading = false;
       this.toastr.error("We coudn't solve your Sudoku. Please check again your initial numbers input !")
       setTimeout(() => {
         this.hasError = false
@@ -225,16 +223,10 @@ export class TableComponent implements OnInit {
         If not, drop through to the logic below and keep solving things.
       */
       if (row == table.length) {
-        if (!this.hasGotPreparedGame) {
-          this.showSuccess = true;
-          this.isSolved = true
-          if (!this.hasGotPreparedGame) {
-            this.toastr.success("We successfully solved your Sudoku !", "Success")
-          }
-          setTimeout(() => {
-            this.showSuccess = false
-          }, 2000);
-        }
+        // if (!this.hasGotPreparedGame) {
+        // }
+        this.isSolved = true
+        this.isLoading = false;
         return true; // Entire board has been filled without conflict.
       }
 
