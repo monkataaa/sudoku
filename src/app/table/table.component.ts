@@ -16,6 +16,7 @@ export class TableComponent implements OnInit {
   public isLoading: boolean = false;
   public tableArr: any[][] = [];
   public solvedArr: any[][] = [];
+  private emptyNineCellsArr: number[] = new Array(9)
   private emptyElement: string = '';
   private calledTimes: number = 0
   private hasError: boolean = false;
@@ -34,7 +35,7 @@ export class TableComponent implements OnInit {
 
 
 
-
+  
   fillUpInitialTable() {
     this.calledTimes = 0;
     this.hasError = false;

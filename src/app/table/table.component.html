@@ -7,11 +7,11 @@
 
 <table id="customers" [ngClass]="{'normalState': !hasError && !showSuccess, 'alert alert-danger': hasError, 'alert alert-success': showSuccess}">
   <tbody>
-    <tr *ngFor="let row of tableArr, let rowIndex = index">
-      <ng-container *ngFor="let el of row , let col =  index">
+    <tr *ngFor="let row of emptyNineCellsArr, let rowIndex = index">
+      <ng-container *ngFor="let el of emptyNineCellsArr , let col =  index">
         <td id="{{rowIndex + '_' + col}}" attr.data-el="{{el}}" (click)="showInput(rowIndex + '_' + col)" >
           <inputAndDiv elemId="{{rowIndex + '_' + col}}" [tableArr]="tableArr" [rowIndex]="rowIndex" [col]="col"
-            [(openedId)]="openedId"></inputAndDiv>
+            [(openedId)]="openedId" (updateOpenedId)="showInput($event)"></inputAndDiv>
         </td>
       </ng-container>
     </tr>
