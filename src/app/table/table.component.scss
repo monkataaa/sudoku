@@ -2,12 +2,19 @@ $myFont: "Trebuchet MS", Arial, Helvetica, sans-serif;
 $tdOnHover: rgb(138, 193, 219);
 $solidBorder: 3px solid #080808;
 
+.loading {
+    position: relative;
+    height: 2.5em;
+  }
+
 #customers {
+
 
       font-family: $myFont;
       // border-collapse: collapse;
       margin: auto;
 
+      margin-bottom: 1em;
       border-bottom: $solidBorder;
       border-right: $solidBorder;
       border-top: $solidBorder;
@@ -51,7 +58,9 @@ tr:nth-child(3n) td{
   .normalState  tr:nth-child(n+4):nth-child(-n+6) td:nth-child(n+4):nth-child(-n+6){
         background-color: white;}
 
-  
+.btn {
+    margin: 0.2em;
+ }
   
 td:hover {background-color: $tdOnHover !important; }
   

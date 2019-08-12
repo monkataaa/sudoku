@@ -1,6 +1,12 @@
-<h2>Hello from Baar</h2>
+<app-navbar (getNewGameEmitter)="loadPreparedData($event)"></app-navbar>
 
-<h1>TABLE</h1>
+<div class="loading">
+  <ng-container *ngIf="isLoading">
+    <div class="spinner-grow text-success" role="status"></div>
+    <div class="spinner-grow text-danger" role="status"></div>
+    <div class="spinner-grow text-warning" role="status"></div>
+  </ng-container>
+</div>
 <!-- tableArr: {{tableArr | json}}
   <br>  ------------ <br> -->
   <!-- solvedArr: {{solvedArr | json}} -->
@@ -23,13 +29,8 @@
 <button type="button" class="btn btn-success" (click)="showSolvedSudoku()">solve it for me please</button>
 <button type="button" class="btn btn-warning" (click)="fillUpInitialTable()">clear table</button>
 <br>
-<button type="button" class="btn btn-light" (click)="loadPreparedData(1)">load level 1</button>
+<!-- <button type="button" class="btn btn-light" (click)="loadPreparedData(1)">load level 1</button>
 <button type="button" class="btn btn-info" (click)="loadPreparedData(2)">load level 2
 </button>
-<button type="button" class="btn btn-danger" (click)="loadPreparedData(3)">load level 3</button>
+<button type="button" class="btn btn-danger" (click)="loadPreparedData(3)">load level 3</button> -->
 <br>
-<ng-container *ngIf="isLoading">
-  <div class="spinner-grow text-success" role="status"></div>
-  <div class="spinner-grow text-danger" role="status"></div>
-  <div class="spinner-grow text-warning" role="status"></div>
-</ng-container>

@@ -11,13 +11,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
 import { ToastrModule } from 'ngx-toastr';
+import { NavbarComponent } from './navbar/navbar.component';
 @NgModule({
   declarations: [
     AppComponent,
     TableComponent,
     InputAndDivComponent,
     AutofocusDirective,
-    NumberOnlyDirective
+    NumberOnlyDirective,
+    NavbarComponent
   ],
   imports: [
     BrowserModule,
