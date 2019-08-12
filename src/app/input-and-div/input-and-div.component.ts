@@ -43,7 +43,7 @@ export class InputAndDivComponent {
       newOpenedId = this.rowIndex + '_' + (this.col - 1)
       if (this.col == 0) {
         if (this.rowIndex == 0) {
-          newOpenedId = null
+          newOpenedId = this.rowIndex + '_' + 0
         } else {
           newOpenedId = (this.rowIndex - 1) + '_' + 8
         }
@@ -55,7 +55,7 @@ export class InputAndDivComponent {
       newOpenedId = this.rowIndex + '_' + (this.col + 1)
       if (this.col == 8) {
         if (this.rowIndex == 8) {
-          newOpenedId = null
+          newOpenedId = this.rowIndex + '_' + 8
         } else {
           newOpenedId = (this.rowIndex + 1) + '_' + 0
         }
