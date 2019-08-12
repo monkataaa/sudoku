@@ -20,26 +20,35 @@ export class InputAndDivComponent {
 
 
 
+  private deleteKeys: string[] = ['Backspace', 'Delete'];
+  onNewInput(e) {
+
+    let newNumberValue = Number(e.target.value.slice(-1))
+    if (!newNumberValue) {
+      e.target.value = this.tableArr[this.rowIndex][this.col]
+      return
+    }
+
+    if (newNumberValue == this.tableArr[this.rowIndex][this.col]) {
+      e.target.value = newNumberValue
+      e.preventDefault()
+      return
+    }
+
+    this.tableArr[this.rowIndex][this.col] = newNumberValue
+
+  }
   onPressedKey(e) {
 
-    if (!Number(e.key)) {
-      e.preventDefault()
-    }
-
-    let newValue = Number(e.key)
-
-    if (newValue === 0) {
+    if (this.deleteKeys.indexOf(e.key) !== -1) {
       this.tableArr[this.rowIndex][this.col] = ""
+      return;
     }
-
-    if (newValue) {
-      this.tableArr[this.rowIndex][this.col] = Number(newValue)
-      e.preventDefault()
-    }
-
 
     let newOpenedId
     if (e.shiftKey && (e.key === "Tab")) {
+      e.preventDefault()
+
       newOpenedId = this.rowIndex + '_' + (this.col - 1)
       if (this.col == 0) {
         if (this.rowIndex == 0) {
@@ -52,8 +61,11 @@ export class InputAndDivComponent {
       this.updateOpenedId.emit(newOpenedId)
 
     } else if (e.key === "Tab") {
+      e.preventDefault()
+
       newOpenedId = this.rowIndex + '_' + (this.col + 1)
       if (this.col == 8) {
+
         if (this.rowIndex == 8) {
           newOpenedId = this.rowIndex + '_' + 8
         } else {
