@@ -16,15 +16,15 @@ export class TableComponent implements OnInit {
   public isLoading: boolean = false;
   public tableArr: any[][] = [];
   public solvedArr: any[][] = [];
-  private emptyNineCellsArr: number[] = new Array(9)
-  private emptyElement: string = '';
-  private calledTimes: number = 0
-  private hasError: boolean = false;
-  private showSuccess: boolean = false;
-  private hasGotPreparedGame: boolean = false;
-  private isSolved: boolean = false;
-  private openedId: string = null
-  private isUserCheck: boolean = false;
+  public emptyNineCellsArr: number[] = new Array(9)
+  public emptyElement: string = '';
+  public calledTimes: number = 0
+  public hasError: boolean = false;
+  public showSuccess: boolean = false;
+  public hasGotPreparedGame: boolean = false;
+  public isSolved: boolean = false;
+  public openedId: string = null
+  public isUserCheck: boolean = false;
 
 
   ngOnInit() {
@@ -190,7 +190,7 @@ export class TableComponent implements OnInit {
   */
 
 
-  private solveSudokuCell(row, col, table) {
+  public solveSudokuCell(row, col, table) {
     
     this.isLoading = true
     ++this.calledTimes
@@ -271,7 +271,7 @@ export class TableComponent implements OnInit {
   /*
     Will the placement at (row, col) break the Sudoku properties?
   */
-  private canPlaceValue(board, row, col, charToPlace) {
+  public canPlaceValue(board, row, col, charToPlace) {
 
     // Check column constraint. For each row, we do a check on column "col".
     for (let i = 0; i < board.length; i++) {
