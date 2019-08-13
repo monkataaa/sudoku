@@ -24,7 +24,6 @@ export class TableComponent implements OnInit {
   public hasGotPreparedGame: boolean = false;
   public isSolved: boolean = false;
   public openedId: string = null
-  public isUserCheck: boolean = false;
 
 
   ngOnInit() {
@@ -58,36 +57,37 @@ export class TableComponent implements OnInit {
 
 
   checkUserSolution() {
-
-    if (!this.hasGotPreparedGame && !this.isSolved){
+    
       this.solvedArr = this.tableArr.map((currentArr) => {
         return currentArr.slice(0);
       })
-      this.isUserCheck = true;
       this.solveSudoku(this.solvedArr);
-    }
 
-
-    for (let row = 0; row < this.tableArr.length; row++) {
-      for (let col = 0; col < this.tableArr.length; col++) {
-        if (this.tableArr[row][col]) {
-          if (Number(this.tableArr[row][col]) !== Number(this.solvedArr[row][col])) {
-            this.hasError = true
-            this.toastr.error("We are sorry to say... your solution has errors !")
-            setTimeout(() => {
-              this.hasError = false
-            }, 5000);
-            return
+    if (this.isSolved) {
+      
+      for (let row = 0; row < this.tableArr.length; row++) {
+        for (let col = 0; col < this.tableArr.length; col++) {
+          if (this.tableArr[row][col]) {
+            if (Number(this.tableArr[row][col]) !== Number(this.solvedArr[row][col])) {
+              this.hasError = true
+              this.toastr.error("We are sorry to say... your solution has errors !")
+              setTimeout(() => {
+                this.hasError = false
+              }, 5000);
+              return
+            }
           }
         }
       }
+      this.showSuccess = true;
+      this.toastr.success("your solution has no errors")
+      setTimeout(() => {
+        this.showSuccess = false
+      }, 2000);
+      return
+
     }
-    this.showSuccess = true;
-    this.toastr.success("your solution has no errors")
-    setTimeout(() => {
-      this.showSuccess = false
-    }, 2000);
-    return
+
 
   }
 
@@ -174,6 +174,7 @@ export class TableComponent implements OnInit {
     Driver function to kick off the recursion
   */
   public solveSudoku(table): void {
+    this.calledTimes = 0;
     return this.solveSudokuCell(0, 0, table);
   }
 
@@ -198,7 +199,7 @@ export class TableComponent implements OnInit {
     if (this.calledTimes >= ValueLimits.maxTrials) {
       this.hasError = true;
       this.isLoading = false;
-      this.toastr.error("We coudn't solve your Sudoku. Please check again your initial numbers input !")
+      this.toastr.error("The Sudoku has errors. Please check again your initial numbers input !")
       setTimeout(() => {
         this.hasError = false
       }, 5000);
