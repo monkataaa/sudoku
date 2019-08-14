@@ -1,4 +1,6 @@
-<input *ngIf="openedId == elemId"   type="text"
-(keyup.enter)="openedId = null"  [autofocus]="true" size="2"
-[ngModel]="tableArr[rowIndex][col]"  (input)="onNewInput($event)" (keydown)="onPressedKey($event)" >
-<div *ngIf="openedId != elemId"> {{tableArr[rowIndex][col]}}</div> 
+<input *ngIf="openedId == elemId && !isGeneratedValue" type="text" [autofocus]="true" size="2"
+    [ngModel]="tableArr[rowIndex][col]" (input)="onNewInput($event)" (keydown)="onPressedKey($event)">
+<div *ngIf="isGeneratedValue || openedId != elemId"
+    [ngClass]="{'isGeneratedField': isGeneratedValue, levelOneColor: level == 1, levelTwoColor: level == 2, levelThreeColor: level == 3}">
+    {{tableArr[rowIndex][col]}}
+</div>

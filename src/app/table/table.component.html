@@ -11,14 +11,16 @@
   <br>  ------------ <br>
   solvedArr: {{solvedArr | json}}
   <br> -->
+  <!-- generatedFields {{generatedFields | json}} -->
+  <!-- openedId {{openedId | json}} -->
 
 <table id="customers" [ngClass]="{'normalState': !hasError && !showSuccess, 'alert alert-danger': hasError, 'alert alert-success': showSuccess}">
   <tbody>
     <tr *ngFor="let row of emptyNineCellsArr, let rowIndex = index">
       <ng-container *ngFor="let el of emptyNineCellsArr , let col =  index">
         <td id="{{rowIndex + '_' + col}}" attr.data-el="{{el}}" (click)="showInput(rowIndex + '_' + col)" >
-          <inputAndDiv elemId="{{rowIndex + '_' + col}}" [tableArr]="tableArr" [rowIndex]="rowIndex" [col]="col"
-            [(openedId)]="openedId" (updateOpenedId)="showInput($event)"></inputAndDiv>
+          <inputAndDiv elemId="{{rowIndex + '_' + col}}" [tableArr]="tableArr" [rowIndex]="rowIndex" [col]="col" [level]="chosenLevel"
+            [(openedId)]="openedId" (updateOpenedId)="showInput($event)" [isGeneratedValue]="checkGeneratedValue(rowIndex + '_' + col)"></inputAndDiv>
         </td>
       </ng-container>
     </tr>

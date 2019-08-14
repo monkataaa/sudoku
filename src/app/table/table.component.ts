@@ -9,6 +9,10 @@ import { ValueLimits } from '../utilities/valueLimits';
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnInit {
+  
+  
+  public generatedValues: string[] = [];
+  public chosenLevel: number;
 
   constructor(private toastr: ToastrService, private apiService: ApiService) { }
 
@@ -41,6 +45,7 @@ export class TableComponent implements OnInit {
     this.showSuccess = false;
     this.isSolved = false;
     this.tableArr = [];
+    this.generatedValues = [];
     for (let i = 0; i < 9; i++) {
       let currentarrArr = []
       for (let y = 0; y < 9; y++) {
@@ -58,11 +63,11 @@ export class TableComponent implements OnInit {
 
   checkUserSolution() {
     
-      this.solvedArr = this.tableArr.map((currentArr) => {
-        return currentArr.slice(0);
-      })
-      this.solveSudoku(this.solvedArr);
-
+      // this.solvedArr = this.tableArr.map((currentArr) => {
+      //   return currentArr.slice(0);
+      // })
+      // this.solveSudoku(this.solvedArr);
+      // console.log('solved arrr', this.solvedArr, this.isSolved);
     if (this.isSolved) {
       
       for (let row = 0; row < this.tableArr.length; row++) {
@@ -91,12 +96,18 @@ export class TableComponent implements OnInit {
 
   }
 
-
+  checkGeneratedValue(id){
+    if (this.generatedValues.includes(id)) {
+      return true;
+    }
+    return false;
+  }
 
 
 
 
   public loadPreparedData(level): void {
+    this.chosenLevel = Number(level)
     this.hasGotPreparedGame = true;
     this.isLoading = true;
     this.fillUpInitialTable();
@@ -105,9 +116,11 @@ export class TableComponent implements OnInit {
       res["squares"].map((data) => {
         let { x, y, value } = data
         if (currentX == x) {
+          this.generatedValues.push(x + "_" + y)
           this.tableArr[x][y] = value
         } else {
           currentX = x
+          this.generatedValues.push(x + "_" + y)
           this.tableArr[x][y] = value
         }
       })
@@ -143,8 +156,36 @@ export class TableComponent implements OnInit {
   }
 
 
-  public showInput(newOpenedId): void {
-    this.openedId = newOpenedId;
+  public showInput(newIdValue): void {
+    if (newIdValue == "next" || newIdValue == "previous") {
+      let allFreePositionsIds = []
+      this.tableArr.filter((innerArr, currentX) => {
+          innerArr.filter((value, currentY) => {
+            if (!value) {
+              allFreePositionsIds.push(currentX + "_" + currentY)
+            }
+          })
+      })
+      let currentOpenedIdIndex = allFreePositionsIds.indexOf(this.openedId);
+      if (newIdValue == "next" ) {
+        if (currentOpenedIdIndex == allFreePositionsIds.length - 1) {
+          this.openedId = allFreePositionsIds[0]
+          return
+        } 
+          this.openedId = allFreePositionsIds[currentOpenedIdIndex + 1]
+          return
+      } else if (newIdValue == "previous" ) {
+        if (currentOpenedIdIndex == 0) {
+          this.openedId = allFreePositionsIds[allFreePositionsIds.length - 1]
+          return
+        } 
+          this.openedId = allFreePositionsIds[currentOpenedIdIndex - 1]
+          return
+      }
+    } else {
+
+      this.openedId = newIdValue;
+    }
   }
 
 

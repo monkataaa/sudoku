@@ -4,16 +4,18 @@ import { Placeholder } from '@angular/compiler/src/i18n/i18n_ast';
 @Component({
   selector: 'inputAndDiv',
   templateUrl: './input-and-div.component.html',
-  styleUrls: ['./input-and-div.component.css']
+  styleUrls: ['./input-and-div.component.scss']
 })
 export class InputAndDivComponent {
 
 
   @Input() openedId: string = null
+  @Input() level: number = null
   @Input() elemId: string = null
   @Input() rowIndex: number = null
   @Input() col: number = null
   @Input() tableArr: any[][];
+  @Input() isGeneratedValue: boolean = false;
 
 
   @Output() updateOpenedId: EventEmitter<any> = new EventEmitter()
@@ -36,6 +38,7 @@ export class InputAndDivComponent {
     }
 
     this.tableArr[this.rowIndex][this.col] = newNumberValue
+    this.updateOpenedId.emit(null);
 
   }
   onPressedKey(e) {
@@ -45,47 +48,17 @@ export class InputAndDivComponent {
       return;
     }
 
-    let newOpenedId
-    if (e.shiftKey && (e.key === "Tab")) {
-      e.preventDefault()
+    if (e.shiftKey && (e.key === "Tab") || e.key === "ArrowUp" || e.key === "ArrowLeft") {
 
-      newOpenedId = this.rowIndex + '_' + (this.col - 1)
-      if (this.col == 0) {
-        if (this.rowIndex == 0) {
-          newOpenedId = this.rowIndex + '_' + 0
-        } else {
-          newOpenedId = (this.rowIndex - 1) + '_' + 8
-        }
-      }
+      this.updateOpenedId.emit('previous')
 
-      this.updateOpenedId.emit(newOpenedId)
+    } else if (e.key === "Tab" || e.key === "ArrowDown" || e.key === "ArrowRight") {
 
-    } else if (e.key === "Tab") {
-      e.preventDefault()
-
-      newOpenedId = this.rowIndex + '_' + (this.col + 1)
-      if (this.col == 8) {
-
-        if (this.rowIndex == 8) {
-          newOpenedId = this.rowIndex + '_' + 8
-        } else {
-          newOpenedId = (this.rowIndex + 1) + '_' + 0
-        }
-      }
-      this.updateOpenedId.emit(newOpenedId)
-
+      this.updateOpenedId.emit('next')
+    } else if (e.key === "Enter" || e.key === "Escape" ) {
+      this.updateOpenedId.emit(null)
     }
 
-
-    switch (e.key) {
-      case "ArrowUp": this.rowIndex == 0 ? null : this.updateOpenedId.emit((this.rowIndex - 1) + '_' + this.col); break;
-      case "ArrowDown": this.rowIndex == 8 ? null : this.updateOpenedId.emit((this.rowIndex + 1) + '_' + this.col); break;
-      case "ArrowLeft": this.col == 0 ? null : this.updateOpenedId.emit(this.rowIndex + '_' + (this.col - 1)); break;
-      case "ArrowRight": this.col == 8 ? null : this.updateOpenedId.emit(this.rowIndex + '_' + (this.col + 1)); break;
-
-      default: null
-        break;
-    }
-
+  
   }
 }
