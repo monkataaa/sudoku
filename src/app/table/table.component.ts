@@ -27,6 +27,7 @@ export class TableComponent implements OnInit {
   public showSuccess: boolean = false;
   public hasGotPreparedGame: boolean = false;
   public isSolved: boolean = false;
+  public openTableStatus: boolean = false;
   public openedId: string = null
 
 
@@ -58,6 +59,10 @@ export class TableComponent implements OnInit {
       return currentArr.slice(0);
     })
 
+  }
+
+  getOpenTableStatus(value){
+    this.openTableStatus = value;
   }
 
 
@@ -128,6 +133,7 @@ export class TableComponent implements OnInit {
         return currentArr.slice(0);
       });
       this.isLoading = false;
+      this.openTableStatus = true;
       this.solveSudoku(this.solvedArr);
     })
 

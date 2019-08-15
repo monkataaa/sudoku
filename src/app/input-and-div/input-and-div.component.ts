@@ -16,6 +16,7 @@ export class InputAndDivComponent {
   @Input() col: number = null
   @Input() tableArr: any[][];
   @Input() isGeneratedValue: boolean = false;
+  @Input() isTableOpen: boolean = false;
 
 
   @Output() updateOpenedId: EventEmitter<any> = new EventEmitter()

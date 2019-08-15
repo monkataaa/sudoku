@@ -1,4 +1,4 @@
-<app-navbar (getNewGameEmitter)="loadPreparedData($event)"></app-navbar>
+<app-navbar (getNewGameEmitter)="loadPreparedData($event)" (openTableEmitter)="getOpenTableStatus($event)"></app-navbar>
 
 <div class="loading">
   <ng-container *ngIf="isLoading">
@@ -18,8 +18,8 @@
   <tbody>
     <tr *ngFor="let row of emptyNineCellsArr, let rowIndex = index">
       <ng-container *ngFor="let el of emptyNineCellsArr , let col =  index">
-        <td id="{{rowIndex + '_' + col}}" attr.data-el="{{el}}" (click)="showInput(rowIndex + '_' + col)" >
-          <inputAndDiv elemId="{{rowIndex + '_' + col}}" [tableArr]="tableArr" [rowIndex]="rowIndex" [col]="col" [level]="chosenLevel"
+        <td id="{{rowIndex + '_' + col}}" attr.data-el="{{el}}" (click)="showInput(rowIndex + '_' + col)">
+          <inputAndDiv elemId="{{rowIndex + '_' + col}}" [tableArr]="tableArr" [rowIndex]="rowIndex" [col]="col" [level]="chosenLevel" [isTableOpen]="openTableStatus"
             [(openedId)]="openedId" (updateOpenedId)="showInput($event)" [isGeneratedValue]="checkGeneratedValue(rowIndex + '_' + col)"></inputAndDiv>
         </td>
       </ng-container>

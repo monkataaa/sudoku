@@ -1,6 +1,11 @@
 <nav class="navbar navbar-expand-sm bg-light justify-content-center">
-  <button type="button" class="btn btn-info" (click)="loadPreparedData(1)">level 1</button>
-  <button type="button" class="btn btn-warning" (click)="loadPreparedData(2)">level 2</button>
-  <button type="button" class="btn btn-danger" (click)="loadPreparedData(3)">level 3</button>
+  <button type="button" class="btn btn-info" [ngClass]="{'deactivatedGame': isOwnSudoku}" (click)="loadPreparedData(1)" [disabled]="isOwnSudoku">level 1</button>
+  <button type="button" class="btn btn-warning" [ngClass]="{'deactivatedGame': isOwnSudoku}" [disabled]="isOwnSudoku"(click)="loadPreparedData(2)">level 2</button>
+  <button type="button" class="btn btn-danger" [ngClass]="{'deactivatedGame': isOwnSudoku}" [disabled]="isOwnSudoku" (click)="loadPreparedData(3)">level 3</button>
+  <label class="switch">
+      <input type="checkbox"  (click)="switchGames()">
+      <span class="slider round"></span>
+  </label>
+  <button type="button" class="btn btn-primary ownSudokuColor" [ngClass]="{'deactivatedGame': !isOwnSudoku}" [disabled]="!isOwnSudoku" (click)="getOwnSudoku()">own Sudoku</button>
 </nav>
 
