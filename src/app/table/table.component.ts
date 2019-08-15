@@ -164,6 +164,10 @@ export class TableComponent implements OnInit {
 
 
   public showInput(newIdValue): void {
+    if (!this.openTableStatus) {
+      this.toastr.warning("please choose game level or play with your own sudoku!")
+    }
+
     if (newIdValue == "next" || newIdValue == "previous") {
       let allFreePositionsIds = []
       this.tableArr.filter((innerArr, currentX) => {
