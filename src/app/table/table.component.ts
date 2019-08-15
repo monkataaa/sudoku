@@ -9,8 +9,8 @@ import { ValueLimits } from '../utilities/valueLimits';
   styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnInit {
-  
-  
+
+
   public generatedValues: string[] = [];
   public chosenLevel: number;
 
@@ -39,7 +39,7 @@ export class TableComponent implements OnInit {
 
 
 
-  
+
   fillUpInitialTable() {
     this.calledTimes = 0;
     this.hasError = false;
@@ -61,20 +61,21 @@ export class TableComponent implements OnInit {
 
   }
 
-  getOpenTableStatus(value){
-    this.openTableStatus = value;
+  getOpenTableStatus(newValue) {
+    this.openTableStatus = newValue;
+    this.fillUpInitialTable();
   }
 
 
   checkUserSolution() {
-    
-      // this.solvedArr = this.tableArr.map((currentArr) => {
-      //   return currentArr.slice(0);
-      // })
-      // this.solveSudoku(this.solvedArr);
-      // console.log('solved arrr', this.solvedArr, this.isSolved);
+
+    // this.solvedArr = this.tableArr.map((currentArr) => {
+    //   return currentArr.slice(0);
+    // })
+    // this.solveSudoku(this.solvedArr);
+    // console.log('solved arrr', this.solvedArr, this.isSolved);
     if (this.isSolved) {
-      
+
       for (let row = 0; row < this.tableArr.length; row++) {
         for (let col = 0; col < this.tableArr.length; col++) {
           if (this.tableArr[row][col]) {
@@ -101,7 +102,7 @@ export class TableComponent implements OnInit {
 
   }
 
-  checkGeneratedValue(id){
+  checkGeneratedValue(id) {
     if (this.generatedValues.includes(id)) {
       return true;
     }
@@ -166,27 +167,27 @@ export class TableComponent implements OnInit {
     if (newIdValue == "next" || newIdValue == "previous") {
       let allFreePositionsIds = []
       this.tableArr.filter((innerArr, currentX) => {
-          innerArr.filter((value, currentY) => {
-            if (!value) {
-              allFreePositionsIds.push(currentX + "_" + currentY)
-            }
-          })
+        innerArr.filter((value, currentY) => {
+          if (!value) {
+            allFreePositionsIds.push(currentX + "_" + currentY)
+          }
+        })
       })
       let currentOpenedIdIndex = allFreePositionsIds.indexOf(this.openedId);
-      if (newIdValue == "next" ) {
+      if (newIdValue == "next") {
         if (currentOpenedIdIndex == allFreePositionsIds.length - 1) {
           this.openedId = allFreePositionsIds[0]
           return
-        } 
-          this.openedId = allFreePositionsIds[currentOpenedIdIndex + 1]
-          return
-      } else if (newIdValue == "previous" ) {
+        }
+        this.openedId = allFreePositionsIds[currentOpenedIdIndex + 1]
+        return
+      } else if (newIdValue == "previous") {
         if (currentOpenedIdIndex == 0) {
           this.openedId = allFreePositionsIds[allFreePositionsIds.length - 1]
           return
-        } 
-          this.openedId = allFreePositionsIds[currentOpenedIdIndex - 1]
-          return
+        }
+        this.openedId = allFreePositionsIds[currentOpenedIdIndex - 1]
+        return
       }
     } else {
 
@@ -239,7 +240,7 @@ export class TableComponent implements OnInit {
 
 
   public solveSudokuCell(row, col, table) {
-    
+
     this.isLoading = true
     ++this.calledTimes
 
