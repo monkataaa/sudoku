@@ -163,9 +163,19 @@ export class TableComponent implements OnInit {
   }
 
 
+  public preventDublicateWarnings = false
+  
   public showInput(newIdValue): void {
     if (!this.openTableStatus) {
-      this.toastr.warning("please choose game level or play with your own sudoku!")
+      this.toastr["options"] = {
+        "preventDuplicates": true,
+        "preventOpenDuplicates": true
+        };
+        if (!this.preventDublicateWarnings) {
+          this.preventDublicateWarnings = true
+          this.toastr.warning("please choose game level or play with your own sudoku!")
+          setTimeout(() => { this.preventDublicateWarnings = false }, 5000);
+        }
     }
 
     if (newIdValue == "next" || newIdValue == "previous") {
