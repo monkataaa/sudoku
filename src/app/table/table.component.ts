@@ -116,6 +116,7 @@ export class TableComponent implements OnInit {
     this.chosenLevel = Number(level)
     this.hasGotPreparedGame = true;
     this.isLoading = true;
+    this.openedId = null;
     this.fillUpInitialTable();
     this.apiService.getSudoku(level).subscribe(res => {
       let currentX = 0
