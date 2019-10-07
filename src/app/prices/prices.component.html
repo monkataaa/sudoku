@@ -1,0 +1,19 @@
+<h2><button (click)="saveIt()"> save it</button></h2>
+<table class="table table-bordered table-dark">
+  <thead>
+    <tr>
+      <th scope="col" >Квартал</th>
+      <th scope="col" (click)="sortByOneRoom('oneRoom')">Едностаен</th>
+      <th scope="col" (click)="sortByOneRoom('twoRooms')">Двустаен</th>
+      <th scope="col" (click)="sortByOneRoom('three')">Тристаен</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr [ngClass]="{'cheap': item[selectedOrder] < limits[selectedOrder]}" *ngFor="let item of pricesArr">
+      <th  scope="row">{{item.district}}</th>
+      <td>{{item.oneRoom}}</td>
+      <td>{{item.twoRooms}}</td>
+      <td>{{item.three}}</td>
+    </tr>
+  </tbody>
+</table>
