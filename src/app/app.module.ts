@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { ToastrModule } from 'ngx-toastr';
 import { NavbarComponent } from './navbar/navbar.component';
+import { PricesComponent } from './prices/prices.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +20,8 @@ import { NavbarComponent } from './navbar/navbar.component';
     InputAndDivComponent,
     AutofocusDirective,
     NumberOnlyDirective,
-    NavbarComponent
+    NavbarComponent,
+    PricesComponent
   ],
   imports: [
     BrowserModule,
