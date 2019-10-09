@@ -21,6 +21,11 @@ test('My first test', async t => {
     const columnCount = await table.find('tr').nth(0).find('td').count;
     console.log('rowCount', rowCount);
 
+    let timeStamp = await Selector('table').nth(3).find('td').textContent
+    timeStamp = timeStamp.trim()
+    console.log('timeStamp', timeStamp);
+    
+
     for (let i = 2; i < rowCount; i++) {
         let obj = {}
         let district = await table.find('tr').nth(i).find('td').nth(0).textContent;
@@ -34,6 +39,7 @@ test('My first test', async t => {
         resultArr.push(obj)
         if (district == 'м-т Киноцентъра') {
             console.log(' posledniq e ', i);
+            resultArr.push({timeStamp})
             break;
         }
         // console.log('kvartal', kvartal);

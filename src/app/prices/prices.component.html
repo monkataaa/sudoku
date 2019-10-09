@@ -1,33 +1,27 @@
 
-<h2><button (click)="clearSorting()">clear sorting</button></h2>
-
-<div class="container float-right">
-  <div class="row">
-    <div class="col-sm-4   offset-md-3 addBorders">
-      <label for="oneRoomPrice">Едностаен до: </label>
-      <input name='oneRoomPrice' type="text" class="inputStyling" [(ngModel)]="limits.oneRoom">
-    </div>
-    <!-- Force next columns to break to new line -->
-    <div class="w-100"></div>
-    <div class="col-sm-4 addBorders">
-      <label for="twoRoomsPrice">Двустаен до: </label>
-      <input name='twoRoomsPrice' type="text" class="inputStyling" [(ngModel)]="limits.twoRooms">
-    </div>
-    <!-- Force next columns to break to new line -->
-    <div class="w-100"></div>
-    <div class="col-sm-4 addBorders">
-      <label for="threeRoomsPrice">Тристаен до: </label>
-      <input name='threeRoomsPrice' type="text" class="inputStyling" [(ngModel)]="limits.three">
-    </div>
-    <!-- Force next columns to break to new line -->
-    <div class="w-100"></div>
-
-  </div>
+<div class="lastUpdateStyle">
+  {{lastUpdate}}
 </div>
+<div class="limitsBox">
+    <div >
+      <label for="oneRoomPrice">Едностаен до: </label>
+      <input name='oneRoomPrice' type="text"  [(ngModel)]="limits.oneRoom">
+    </div>
+    <div >
+      <label for="twoRoomsPrice">Двустаен до: </label>
+      <input name='twoRoomsPrice' type="text"  [(ngModel)]="limits.twoRooms">
+    </div>
+    <div >
+      <label for="threeRoomsPrice">Тристаен до: </label>
+      <input name='threeRoomsPrice' type="text"  [(ngModel)]="limits.three" >
+    </div>
+</div>
+<!-- <h2>timeStamp {{lastUpdate | json}}</h2> -->
+
 <table class="table table-bordered table-dark">
   <thead>
     <tr>
-      <th scope="col" >Квартал</th>
+      <th scope="col" (click)="clearSorting()">Квартал</th>
       <th scope="col" (click)="sortByOneRoom('oneRoom')">Едностаен</th>
       <th scope="col" (click)="sortByOneRoom('twoRooms')">Двустаен</th>
       <th scope="col" (click)="sortByOneRoom('three')">Тристаен</th>
@@ -36,9 +30,9 @@
   <tbody>
     <tr *ngFor="let item of pricesArr">
       <th  scope="row">{{item.district}}</th>
-      <td [ngClass]="{'cheap': selectedOrder == 'oneRoom' && item['oneRoom'] < limits['oneRoom']}" >{{item.oneRoom}}</td>
-      <td [ngClass]="{'cheap': selectedOrder == 'twoRooms' && item['twoRooms'] < limits['twoRooms']}" >{{item.twoRooms}}</td>
-      <td [ngClass]="{'cheap': selectedOrder == 'three' && item['three'] < limits['three']}" >{{item.three}}</td>
+      <td [ngClass]="{'cheap': selectedOrder == 'oneRoom' && item['oneRoom'] < limits['oneRoom']}" >{{item.oneRoom | number: '2.'}}</td>
+      <td [ngClass]="{'cheap': selectedOrder == 'twoRooms' && item['twoRooms'] < limits['twoRooms']}" >{{item.twoRooms | number: '2.'}}</td>
+      <td [ngClass]="{'cheap': selectedOrder == 'three' && item['three'] < limits['three']}" >{{item.three | number: '2.'}}</td>
     </tr>
   </tbody>
 </table>

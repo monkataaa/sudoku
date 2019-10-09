@@ -6,7 +6,7 @@ declare var require: any
 @Component({
   selector: 'app-prices',
   templateUrl: './prices.component.html',
-  styleUrls: ['./prices.component.css']
+  styleUrls: ['./prices.component.scss']
 })
 export class PricesComponent implements OnInit {
 
@@ -17,6 +17,7 @@ export class PricesComponent implements OnInit {
     this.httpService.get('./assets/resultsData.json').subscribe(
       data => {
         this.initialArr = data as string [];	 // FILL THE ARRAY WITH DATA.
+        this.lastUpdate = Object.values(this.initialArr.pop())[0];
         this.clearSorting();
       },
       (err: HttpErrorResponse) => {
@@ -29,6 +30,7 @@ export class PricesComponent implements OnInit {
   initialArr = []
   isAsc = true;
   selectedOrder = '';
+  lastUpdate 
 
 
 
