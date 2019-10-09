@@ -16,7 +16,8 @@ export class PricesComponent implements OnInit {
   ngOnInit() {
     this.httpService.get('./assets/resultsData.json').subscribe(
       data => {
-        this.pricesArr = data as string [];	 // FILL THE ARRAY WITH DATA.
+        this.initialArr = data as string [];	 // FILL THE ARRAY WITH DATA.
+        this.clearSorting();
       },
       (err: HttpErrorResponse) => {
         console.log (err.message);
@@ -25,7 +26,8 @@ export class PricesComponent implements OnInit {
   }
   
   pricesArr = []
-  lastOrderType = 'asc';
+  initialArr = []
+  isAsc = true;
   selectedOrder = '';
 
 
@@ -36,18 +38,23 @@ export class PricesComponent implements OnInit {
     'three' : 90000,
   }
 
+  clearSorting() {
+    this.isAsc = true
+    this.selectedOrder = '';
+    this.pricesArr = this.initialArr;
+  }
+
+ 
   sortByOneRoom(selector) {
-    let asc;
-    let desc;
     if (this.selectedOrder == selector) {
-      asc = -1
-      desc = 1
+      this.isAsc = !this.isAsc
     } else {
       this.selectedOrder = selector
-       asc = 1
-       desc = -1
+      this.isAsc = true
     }
-    this.pricesArr = this.pricesArr.sort((a, b) => (a[selector] > b[selector]) ? asc : desc)
+    let orderType1 = this.isAsc ? 1 : -1
+    let orderType2 = this.isAsc ? -1 : 1
+    this.pricesArr = this.initialArr.filter(a => a[selector]).sort((a, b) => (a[selector] > b[selector]) ? orderType1 : orderType2)
   }
 
 

@@ -1,3 +1,15 @@
 .cheap {
-    background-color: greenyellow;
+    /* background-color: rgb(215, 250, 162); */
+    background-color: rgba(144, 239, 0, 0.62);
+    /* background-color: red; */
+    
+}
+
+.addBorders {
+    border-style: groove;
+}
+
+.inputStyling {
+    margin-left: 5px;
+    margin-top: 5px;
 }
